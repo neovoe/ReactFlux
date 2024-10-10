@@ -60,13 +60,6 @@ const ArticleCardContent = ({ entry, showFeedIcon, mini, children }) => {
         opacity: entry.status === "unread" ? 1 : 0.5,
       }}
     >
-      <div
-        style={{
-          padding: !entry.imgSrc ? "0" : mini ? "0 10px 0 0" : "0 0 10px 0",
-        }}
-      >
-        <RenderImage entry={entry} isThumbnail={mini} />
-      </div>
       <div className={mini ? "article-card-mini-content-text" : ""}>
         <Typography.Text className="article-card-title">
           {entry.title}
@@ -86,6 +79,13 @@ const ArticleCardContent = ({ entry, showFeedIcon, mini, children }) => {
           {generateReadingTime(entry.reading_time)}
         </Typography.Text>
         {entry.starred && <IconStarFill className="icon-starred" />}
+      </div>
+      <div
+        style={{
+          padding: !entry.imgSrc ? "0" : mini ? "0 10px 0 0" : "0 0 10px 0",
+        }}
+      >
+        <RenderImage entry={entry} isThumbnail={mini} />
       </div>
       <div>{children}</div>
     </div>
