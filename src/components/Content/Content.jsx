@@ -118,12 +118,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     [navigateToPreviousArticle],
   )
 
-  const handlers = useSwipeable({
-    onSwiping: handleSwiping,
-    onSwiped: handleSwiped,
-    onSwipedLeft: handleSwipeLeft,
-    onSwipedRight: handleSwipeRight,
-  })
+  const handlers = useSwipeable({})
 
   useEffect(() => {
     if (duplicateHotkeys.length > 0) {
