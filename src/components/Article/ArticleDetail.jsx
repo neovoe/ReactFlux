@@ -316,10 +316,6 @@ const ArticleDetail = forwardRef((_, ref) => {
             <Typography.Text className="article-date">
               {generateReadableDate(activeContent.published_at)}
             </Typography.Text>
-            <br />
-            <Typography.Text className="article-date">
-              {generateReadingTime(activeContent.reading_time)}
-            </Typography.Text>
             <Divider />
           </div>
           <div

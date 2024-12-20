@@ -29,15 +29,15 @@ import "./ActionButtons.css"
 
 const DesktopButtons = memo(
   ({
-    commonButtons,
-    hasIntegrations,
-    prevContent,
-    nextContent,
-    navigateToPreviousArticle,
-    navigateToNextArticle,
-    handleSaveToThirdPartyServices,
-    polyglot,
-  }) => (
+     commonButtons,
+     hasIntegrations,
+     prevContent,
+     nextContent,
+     navigateToPreviousArticle,
+     navigateToNextArticle,
+     handleSaveToThirdPartyServices,
+     polyglot,
+   }) => (
     <>
       <div className="left-side">
         {commonButtons.close}
@@ -80,8 +80,9 @@ DesktopButtons.displayName = "DesktopButtons"
 const MobileButtons = memo(({ commonButtons }) => (
   <div className="mobile-buttons">
     {commonButtons.status}
-    {commonButtons.star}
+    {commonButtons.prev}
     {commonButtons.close}
+    {commonButtons.next}
     {commonButtons.fetch}
     {commonButtons.more}
   </div>
@@ -196,6 +197,26 @@ const ActionButtons = () => {
         />
       </CustomTooltip>
     ),
+    prev: (
+      <CustomTooltip mini content={polyglot.t("article_card.previous_tooltip")}>
+        <Button
+          disabled={!prevContent}
+          icon={<IconArrowLeft />}
+          shape="circle"
+          onClick={navigateToPreviousArticle}
+        />
+      </CustomTooltip>
+    ),
+    next: (
+      <CustomTooltip mini content={polyglot.t("article_card.next_tooltip")}>
+        <Button
+          disabled={!nextContent}
+          icon={<IconArrowRight />}
+          shape="circle"
+          onClick={navigateToNextArticle}
+        />
+      </CustomTooltip>
+    ),
     close: (
       <CustomTooltip mini content={polyglot.t("article_card.close_tooltip")}>
         <Button icon={<IconClose />} shape="circle" onClick={() => exitDetailView()} />
@@ -222,6 +243,18 @@ const ActionButtons = () => {
         triggerProps={{ className: "settings-dropdown" }}
         droplist={
           <Menu>
+            <Menu.Item
+              key="toggle-star"
+              icon={isStarred ? <IconStarFill style={{ color: "#ffcd00" }} /> : <IconStar />}
+              shape="circle"
+              onClick={() => handleToggleStarred(activeContent)}
+            >
+              <span>{isStarred
+                ? polyglot.t("article_card.unstar_tooltip")
+                : polyglot.t("article_card.star_tooltip")}</span>
+            </Menu.Item>
+
+
             {hasIntegrations && isBelowMedium && (
               <Menu.Item
                 key="save_to_third_party_services"
