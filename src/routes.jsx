@@ -10,6 +10,7 @@ import Login from "./pages/Login"
 import RouterProtect from "./pages/RouterProtect"
 import Starred from "./pages/Starred"
 import Today from "./pages/Today"
+import Article from "./pages/Article"
 import { getSettings } from "./store/settingsState"
 
 const homePage = getSettings("homePage")
@@ -31,7 +32,7 @@ const children = [
     children: [
       {
         path: "article/:articleId",
-        element: <All />,
+        element: <Article />,
       },
     ],
   },
@@ -41,7 +42,7 @@ const children = [
     children: [
       {
         path: "article/:articleId",
-        element: <Today />,
+        element: <Article />,
       },
     ],
   },
@@ -51,7 +52,7 @@ const children = [
     children: [
       {
         path: "article/:articleId",
-        element: <Starred />,
+        element: <Article />,
       },
     ],
   },
@@ -61,7 +62,7 @@ const children = [
     children: [
       {
         path: "article/:articleId",
-        element: <History />,
+        element: <Article />,
       },
     ],
   },
@@ -71,7 +72,7 @@ const children = [
     children: [
       {
         path: "article/:articleId",
-        element: <Category />,
+        element: <Article />,
       },
     ],
   },
@@ -81,7 +82,7 @@ const children = [
     children: [
       {
         path: "article/:articleId",
-        element: <Feed />,
+        element: <Article />,
       },
     ],
   },
