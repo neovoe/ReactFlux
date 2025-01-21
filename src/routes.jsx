@@ -14,13 +14,77 @@ import { getSettings } from "./store/settingsState"
 
 const homePage = getSettings("homePage")
 
-const children = [
+/*const children = [
   { path: "/all", element: <All /> },
   { path: "/today", element: <Today /> },
   { path: "/starred", element: <Starred /> },
   { path: "/history", element: <History /> },
   { path: "/category/:id", element: <Category /> },
   { path: "/feed/:id", element: <Feed /> },
+  { path: "article/:id", element: <Article /> }
+]*/
+
+const children = [
+  {
+    path: "/all",
+    element: <All />,
+    children: [
+      {
+        path: "article/:articleId",
+        element: <All />,
+      },
+    ],
+  },
+  {
+    path: "/today",
+    element: <Today />,
+    children: [
+      {
+        path: "article/:articleId",
+        element: <Today />,
+      },
+    ],
+  },
+  {
+    path: "/starred",
+    element: <Starred />,
+    children: [
+      {
+        path: "article/:articleId",
+        element: <Starred />,
+      },
+    ],
+  },
+  {
+    path: "/history",
+    element: <History />,
+    children: [
+      {
+        path: "article/:articleId",
+        element: <History />,
+      },
+    ],
+  },
+  {
+    path: "/category/:id",
+    element: <Category />,
+    children: [
+      {
+        path: "article/:articleId",
+        element: <Category />,
+      },
+    ],
+  },
+  {
+    path: "/feed/:id",
+    element: <Feed />,
+    children: [
+      {
+        path: "article/:articleId",
+        element: <Feed />,
+      },
+    ],
+  },
 ]
 
 const router = createBrowserRouter([

@@ -1,6 +1,7 @@
 import { Message } from "@arco-design/web-react"
 import { useStore } from "@nanostores/react"
 import { createContext, useCallback, useMemo, useRef } from "react"
+import { useNavigate } from "react-router"
 
 import { updateEntriesStatus } from "@/apis"
 import useEntryActions from "@/hooks/useEntryActions"
@@ -15,6 +16,7 @@ export const ContextProvider = ({ children }) => {
 
   const entryDetailRef = useRef(null)
   const entryListRef = useRef(null)
+  const navigate = useNavigate()
 
   const { handleEntryStatusUpdate } = useEntryActions()
 
@@ -33,12 +35,16 @@ export const ContextProvider = ({ children }) => {
           articleContent.focus()
         }
 
+        // 获取当前路径并去掉 article 部分
+        const basePath = window.location.pathname.split("/article/")[0]
+        navigate(basePath + `/article/${entry.id}`)
+
         setIsArticleLoading(false)
         if (entry.status === "unread") {
           handleEntryStatusUpdate(entry, "read")
           updateEntriesStatus([entry.id], "read").catch(() => {
             Message.error(polyglot.t("content.mark_as_read_error"))
-            setActiveContent({ ...entry, status: "unread" })
+            // setActiveContent({ ...entry, status: "unread" })
             handleEntryStatusUpdate(entry, "unread")
           })
         }
