@@ -5,7 +5,7 @@ import { getBrowserLanguage } from "@/utils/locales"
 const defaultValue = {
   articleWidth: 75,
   edgeToEdgeImages: false,
-  fontFamily: "system-ui",
+  fontFamily: "Inter",
   fontSize: 1.05,
   homePage: "all",
   language: getBrowserLanguage(),
@@ -20,7 +20,7 @@ const defaultValue = {
   showHiddenFeeds: false,
   showStatus: "unread",
   showUnreadFeedsOnly: false,
-  themeColor: "Blue",
+  themeColor: "Orange",
   themeMode: "system",
   titleAlignment: "center",
 }

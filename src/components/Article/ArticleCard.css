@@ -104,7 +104,7 @@
   height: 100%;
   position: relative;
   overflow: hidden;
-  background-color: var(--color-neutral-3);
+  background-color: var(--color-neutral-1);
 }
 
 .card-thumbnail img {

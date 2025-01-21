@@ -68,8 +68,8 @@ p {
 }
 
 .article-date {
-  color: var(--color-text-3);
-  font-size: 0.75rem;
+  color: var(--color-text-4);
+  font-size: 0.9rem;
 }
 
 .article-header {
@@ -78,8 +78,8 @@ p {
 }
 
 .article-meta .arco-typography {
-  color: var(--color-text-3);
-  font-size: 0.75rem;
+  color: var(--color-text-4);
+  font-size: 0.9rem;
   line-height: 2 !important;
 }
 

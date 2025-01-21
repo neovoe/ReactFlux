@@ -29,15 +29,15 @@ import "./ActionButtons.css"
 
 const DesktopButtons = memo(
   ({
-     commonButtons,
-     hasIntegrations,
-     prevContent,
-     nextContent,
-     navigateToPreviousArticle,
-     navigateToNextArticle,
-     handleSaveToThirdPartyServices,
-     polyglot,
-   }) => (
+    commonButtons,
+    hasIntegrations,
+    prevContent,
+    nextContent,
+    navigateToPreviousArticle,
+    navigateToNextArticle,
+    handleSaveToThirdPartyServices,
+    polyglot,
+  }) => (
     <>
       <div className="left-side">
         {commonButtons.close}
@@ -118,7 +118,7 @@ const ActionButtons = () => {
   const isStarred = activeContent.starred
 
   const fontFamilyOptions = [
-    { label: polyglot.t("appearance.font_family_system"), value: "system-ui" },
+    { label: polyglot.t("appearance.font_family_system"), value: "Inter" },
     { label: "Sans-serif", value: "sans-serif" },
     { label: "Serif", value: "serif" },
     { label: "Fira Sans", value: "'Fira Sans', sans-serif" },
@@ -249,11 +249,12 @@ const ActionButtons = () => {
               shape="circle"
               onClick={() => handleToggleStarred(activeContent)}
             >
-              <span>{isStarred
-                ? polyglot.t("article_card.unstar_tooltip")
-                : polyglot.t("article_card.star_tooltip")}</span>
+              <span>
+                {isStarred
+                  ? polyglot.t("article_card.unstar_tooltip")
+                  : polyglot.t("article_card.star_tooltip")}
+              </span>
             </Menu.Item>
-
 
             {hasIntegrations && isBelowMedium && (
               <Menu.Item

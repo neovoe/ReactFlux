@@ -41,7 +41,7 @@
 
 .section-title {
   color: var(--color-text-3);
-  font-style: italic;
+  font-weight: bold;
 }
 
 .custom-menu-item {
@@ -104,12 +104,12 @@
 }
 
 .category-title:hover {
-  background-color: var(--color-neutral-3);
+  background-color: var(--content-bg-1);
 }
 
 .submenu-active,
 .arco-menu-selected {
-  background-color: var(--color-neutral-3) !important;
+  background-color: var(--content-bg-1) !important;
   color: rgb(var(--primary-6)) !important;
 }
 
@@ -123,7 +123,7 @@
   grid-area: sidebar;
   z-index: 999;
   height: 100%;
-  background-color: var(--color-neutral-2);
+  background-color: var(--color-bg-1);
   border-right: 1px solid var(--color-border-2);
 }
 
@@ -139,7 +139,7 @@
 }
 
 .arco-icon-hover.arco-collapse-item-icon-hover:hover::before {
-  background-color: var(--color-neutral-3);
+  background-color: var(--content-bg-1);
 }
 
 .sidebar-container {
@@ -153,12 +153,12 @@
 .sidebar-container .arco-menu-light .arco-menu-group-title,
 .sidebar-container .arco-menu-light .arco-menu-pop-header,
 .sidebar-container .arco-menu-light .arco-menu-inline-header {
-  background-color: var(--color-neutral-2);
+  background-color: var(--color-bg-1);
 }
 
 .arco-menu-light .arco-menu-item:hover,
 .arco-menu-light .arco-menu-group-title:hover,
 .arco-menu-light .arco-menu-pop-header:hover,
 .arco-menu-light .arco-menu-inline-header:hover {
-  background-color: var(--color-neutral-3);
+  background-color: var(--content-bg-1);
 }

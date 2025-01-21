@@ -3,7 +3,7 @@ import { IconCopy } from "@arco-design/web-react/icon"
 import { useStore } from "@nanostores/react"
 import hljs from "highlight.js"
 import { useCallback, useEffect, useState } from "react"
-import { a11yDark } from "react-syntax-highlighter/dist/esm/styles/hljs"
+import { gradientLight, gradientDark } from "react-syntax-highlighter/dist/esm/styles/hljs"
 
 import CustomTooltip from "@/components/ui/CustomTooltip"
 import { polyglotState } from "@/hooks/useLanguage"
@@ -50,8 +50,8 @@ const CodeBlock = ({ children }) => {
       <SyntaxHighlighter
         language={language}
         showLineNumbers={false}
-        style={a11yDark}
-        wrapLines={true}
+        style={document.body.style.colorScheme === "dark" ? gradientDark : gradientLight}
+        wrapLines={false}
       >
         {code}
       </SyntaxHighlighter>

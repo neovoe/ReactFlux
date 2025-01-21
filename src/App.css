@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 240px 1fr;
   grid-template-areas: "sidebar main";
-  background-color: var(--color-neutral-2);
+  background-color: var(--color-bg-1);
   height: 100%;
 }
 
