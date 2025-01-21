@@ -60,7 +60,6 @@ const DesktopButtons = memo(
       </div>
       <div className="right-side">
         {commonButtons.status}
-        {commonButtons.star}
         {commonButtons.fetch}
         {hasIntegrations && (
           <CustomTooltip
