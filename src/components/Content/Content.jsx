@@ -27,9 +27,12 @@ import { duplicateHotkeysState, hotkeysState } from "@/store/hotkeysState"
 import { settingsState } from "@/store/settingsState"
 
 import "./Content.css"
+import { Outlet, useParams } from "react-router"
+import Article from "../../pages/Article.jsx"
 
 const Content = ({ info, getEntries, markAllAsRead }) => {
-  const { activeContent, filterDate, isArticleLoading } = useStore(contentState)
+  const { articleId } = useParams()
+  const { entries, activeContent, filterDate, isArticleLoading } = useStore(contentState)
   const { isAppDataReady } = useStore(dataState)
   const { orderBy, orderDirection, showStatus } = useStore(settingsState)
   const { polyglot } = useStore(polyglotState)
@@ -42,7 +45,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
 
   useDocumentTitle()
 
-  const { entryDetailRef, entryListRef, handleEntryClick } = useContentContext()
+  const { entryDetailRef, entryListRef, handleEntryClick, handleEntryActive } = useContentContext()
 
   const {
     exitDetailView,
@@ -154,6 +157,9 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   }, [duplicateHotkeys, polyglot, showHotkeysSettings])
 
   useEffect(() => {
+    if (articleId) {
+      return
+    }
     setInfoFrom(info.from)
     if (activeContent) {
       setActiveContent(null)
@@ -163,7 +169,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   }, [info])
 
   useEffect(() => {
-    if (["starred", "history"].includes(info.from)) {
+    if (["starred", "history"].includes(info.from) || articleId) {
       return
     }
     refreshArticleList(getEntries)
@@ -174,6 +180,15 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     refreshArticleList(getEntries)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterDate, orderDirection, showStatus])
+
+  useEffect(() => {
+    if (articleId && !activeContent) {
+      const entry = entries.find((entry) => entry.id === Number.parseInt(articleId))
+      if (entry) {
+        setActiveContent(entry)
+      }
+    }
+  }, [articleId, entries])
 
   return (
     <>
@@ -196,38 +211,9 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
           refreshArticleList={() => refreshArticleList(getEntries)}
         />
       </div>
-      {activeContent ? (
-        <div className="article-container content-wrapper" {...handlers}>
-          {!isBelowMedium && <ActionButtons />}
-          {isArticleLoading ? (
-            <div style={{ flex: 1 }} />
-          ) : (
-            <>
-              <AnimatePresence>
-                {isSwipingRight && (
-                  <FadeTransition key="swipe-hint-left" className="swipe-hint left">
-                    <IconLeft style={{ fontSize: 24 }} />
-                  </FadeTransition>
-                )}
-                {isSwipingLeft && (
-                  <FadeTransition key="swipe-hint-right" className="swipe-hint right">
-                    <IconRight style={{ fontSize: 24 }} />
-                  </FadeTransition>
-                )}
-              </AnimatePresence>
-              <ArticleDetail ref={entryDetailRef} />
-            </>
-          )}
-          {isBelowMedium && <ActionButtons />}
-        </div>
-      ) : (
-        <div className="content-empty content-wrapper">
-          <IconEmpty style={{ fontSize: "64px" }} />
-          <Typography.Title heading={6} style={{ color: "var(--color-text-3)", marginTop: "10px" }}>
-            ReactFlux
-          </Typography.Title>
-        </div>
-      )}
+      <Article>
+        <Outlet />
+      </Article>
     </>
   )
 }
