@@ -117,9 +117,9 @@ const ArticleCard = ({ entry, handleEntryClick, children }) => {
 
       img.onload = () => {
         if (isSubscribed) {
-          const aspectRatio = img.naturalWidth / img.naturalHeight
-          const isThumbnailSize = Math.max(img.width, img.height) <= 250
-          setIsWideImage(aspectRatio >= WIDE_IMAGE_RATIO && !isThumbnailSize)
+          /*const aspectRatio = img.naturalWidth / img.naturalHeight
+          const isThumbnailSize = Math.max(img.width, img.height) <= 250*/
+          setIsWideImage(false) // always preview medium size image
           setIsImageLoaded(true)
         }
       }
