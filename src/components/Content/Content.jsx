@@ -1,9 +1,8 @@
 import { Button, Notification } from "@arco-design/web-react"
 import { useStore } from "@nanostores/react"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 import { Outlet, useParams } from "react-router"
-import { useSwipeable } from "react-swipeable"
 
 import FooterPanel from "./FooterPanel"
 
@@ -22,26 +21,22 @@ import { contentState, setActiveContent, setInfoFrom, setOffset } from "@/store/
 import { dataState } from "@/store/dataState"
 import { duplicateHotkeysState, hotkeysState } from "@/store/hotkeysState"
 import { settingsState } from "@/store/settingsState"
-import { ANIMATION_DURATION_MS } from "@/utils/constants"
 
 import "./Content.css"
 
 const Content = ({ info, getEntries, markAllAsRead }) => {
   const { articleId } = useParams()
-  const { entries, activeContent, filterDate, isArticleLoading } = useStore(contentState)
+  const { entries, activeContent, filterDate, infoFrom, isArticleLoading } = useStore(contentState)
   const { isAppDataReady } = useStore(dataState)
   const { orderBy, orderDirection, showStatus } = useStore(settingsState)
   const { polyglot } = useStore(polyglotState)
   const duplicateHotkeys = useStore(duplicateHotkeysState)
   const hotkeys = useStore(hotkeysState)
-
-  const [isSwipingLeft, setIsSwipingLeft] = useState(false)
-  const [isSwipingRight, setIsSwipingRight] = useState(false)
   const cardsRef = useRef(null)
 
   useDocumentTitle()
 
-  const { entryDetailRef, entryListRef, handleEntryClick, handleEntryActive } = useContentContext()
+  const { entryListRef, handleEntryClick } = useContentContext()
 
   const {
     navigateToSelectedCard,
@@ -101,25 +96,6 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     }
   }
 
-  const handleSwiping = (eventData) => {
-    setIsSwipingLeft(eventData.dir === "Left")
-    setIsSwipingRight(eventData.dir === "Right")
-  }
-
-  const handleSwiped = () => {
-    setIsSwipingLeft(false)
-    setIsSwipingRight(false)
-  }
-
-  const handleSwipeLeft = useCallback(() => navigateToNextArticle(), [navigateToNextArticle])
-
-  const handleSwipeRight = useCallback(
-    () => navigateToPreviousArticle(),
-    [navigateToPreviousArticle],
-  )
-
-  const handlers = useSwipeable({})
-
   useEffect(() => {
     if (duplicateHotkeys.length > 0) {
       const id = "duplicate-hotkeys"
@@ -154,10 +130,11 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   }, [duplicateHotkeys, polyglot, showHotkeysSettings])
 
   useEffect(() => {
-    if (articleId) {
+    const contactInfo = info.id ? (info.from + "/" + info.id) : info.from
+    if (articleId || contactInfo === infoFrom) {
       return
     }
-    setInfoFrom(info.from)
+    setInfoFrom(contactInfo)
     if (activeContent) {
       setActiveContent(null)
       return

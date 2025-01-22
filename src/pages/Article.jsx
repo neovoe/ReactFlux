@@ -2,27 +2,55 @@ import { Typography } from "@arco-design/web-react"
 import { IconEmpty, IconLeft, IconRight } from "@arco-design/web-react/icon"
 import { useStore } from "@nanostores/react"
 import { AnimatePresence } from "framer-motion"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { useSwipeable } from "react-swipeable"
 
 import ActionButtons from "@/components/Article/ActionButtons"
 import ArticleDetail from "@/components/Article/ArticleDetail"
 import FadeTransition from "@/components/ui/FadeTransition"
 import useContentContext from "@/hooks/useContentContext"
+import useKeyHandlers from "@/hooks/useKeyHandlers"
 import useScreenWidth from "@/hooks/useScreenWidth"
 import { contentState } from "@/store/contentState"
 
 const Article = () => {
   const { activeContent, isArticleLoading } = useStore(contentState)
   const { entryDetailRef } = useContentContext()
-  const [isSwipingLeft] = useState(false)
-  const [isSwipingRight] = useState(false)
+  const [isSwipingLeft, setIsSwipingLeft] = useState(false)
+  const [isSwipingRight, setIsSwipingRight] = useState(false)
   const { isBelowMedium } = useScreenWidth()
 
-  const handlers = useSwipeable({})
+  const {
+    navigateToNextArticle,
+    navigateToPreviousArticle
+  } = useKeyHandlers()
+
+  const handleSwiping = (eventData) => {
+    setIsSwipingLeft(eventData.dir === "Left")
+    setIsSwipingRight(eventData.dir === "Right")
+  }
+
+  const handleSwiped = () => {
+    setIsSwipingLeft(false)
+    setIsSwipingRight(false)
+  }
+
+  const handleSwipeLeft = useCallback(() => navigateToNextArticle(), [navigateToNextArticle])
+
+  const handleSwipeRight = useCallback(
+    () => navigateToPreviousArticle(),
+    [navigateToPreviousArticle],
+  )
+
+  const handlers = useSwipeable({
+    onSwiping: handleSwiping,
+    onSwiped: handleSwiped,
+    onSwipedLeft: handleSwipeLeft,
+    onSwipedRight: handleSwipeRight,
+  })
 
   return activeContent ? (
-    <div className="article-container content-wrapper" {...handlers}>
+    <div className="article-container content-wrapper">
       {!isBelowMedium && <ActionButtons />}
       {isArticleLoading ? (
         <div style={{ flex: 1 }} />
