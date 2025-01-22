@@ -83,6 +83,10 @@ const useKeyHandlers = () => {
     }
   })
 
+  const navigateToSelectedCard = withPhotoSliderCheck(() => {
+    setTimeout(() => scrollSelectedCardIntoView(), ANIMATION_DURATION_MS)
+  })
+
   const navigateToNextArticle = withPhotoSliderCheck(() => {
     if (nextContent) {
       handleEntryClick(nextContent)
@@ -163,6 +167,7 @@ const useKeyHandlers = () => {
   return {
     exitDetailView,
     fetchOriginalArticle,
+    navigateToSelectedCard,
     navigateToNextArticle,
     navigateToNextUnreadArticle,
     navigateToPreviousArticle,
