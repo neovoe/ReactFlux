@@ -64,6 +64,14 @@ p {
 
 .article-content code {
   font-size: 0.9em;
+  border: 1px solid var(--color-text-4);
+  border-radius: var(--border-radius-small);
+  padding: 0.2em 0.4em;
+}
+
+.article-content code,
+.article-content pre {
+  font-family: ui-monospace, "JetBrains Mono", Menlo, Monaco, Consolas, 'Source Code Pro', 'Courier Prime', monospace;
 }
 
 .article-content pre {
@@ -223,12 +231,6 @@ p {
   border-left: 1px solid var(--color-border-2);
   padding: 0 20px;
   color: var(--color-text-3);
-}
-
-.article-content code {
-  border: 1px solid var(--color-text-4);
-  border-radius: var(--border-radius-small);
-  padding: 0.2em 0.4em;
 }
 
 /*code 相关样式 - 表格 */
