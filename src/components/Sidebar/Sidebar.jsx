@@ -74,8 +74,8 @@ const CategoryTitle = ({ category, path }) => {
       style={{ cursor: "pointer" }}
       tabIndex={0}
       className={classNames("category-title", {
-        "submenu-active": path === `/category/${category.id}`,
-        "submenu-inactive": path !== `/category/${category.id}`,
+        "submenu-active": path.split("/article")[0] === `/category/${category.id}`,
+        "submenu-inactive": path.split("/article")[0] !== `/category/${category.id}`,
       })}
       onClick={handleNavigation}
       onKeyDown={(e) => {
@@ -118,7 +118,7 @@ const CountDisplay = ({ count }) => {
 const CustomMenuItem = ({ path, Icon, label, count }) => {
   const location = useLocation()
   const navigate = useNavigate()
-  const isSelected = location.pathname === path
+  const isSelected = location.pathname.split("/article/")[0] === path
 
   const handleNavigation = () => {
     navigate(path)
@@ -187,7 +187,7 @@ const FeedMenuItem = ({ feed }) => {
 
   const navigate = useNavigate()
   const location = useLocation()
-  const isSelected = location.pathname === `/feed/${feed.id}`
+  const isSelected = location.pathname.split("/article/")[0] === `/feed/${feed.id}`
 
   return (
     <MenuItem
@@ -429,7 +429,7 @@ const Sidebar = () => {
   const [selectedKeys, setSelectedKeys] = useState([`/${homePage}`])
 
   const location = useLocation()
-  const currentPath = location.pathname
+  const currentPath = location.pathname.split("/article/")[0]
 
   useEffect(() => {
     setSelectedKeys([currentPath])

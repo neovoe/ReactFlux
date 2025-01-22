@@ -1,16 +1,16 @@
-import { AnimatePresence } from "framer-motion"
-import { IconEmpty, IconLeft, IconRight } from "@arco-design/web-react/icon"
 import { Typography } from "@arco-design/web-react"
-import ActionButtons from "@/components/Article/ActionButtons.jsx"
-import ArticleDetail from "@/components/Article/ArticleDetail.jsx"
-import FadeTransition from "@/components/ui/FadeTransition.jsx"
-import useScreenWidth from "@/hooks/useScreenWidth"
-import useContentContext from "@/hooks/useContentContext"
+import { IconEmpty, IconLeft, IconRight } from "@arco-design/web-react/icon"
 import { useStore } from "@nanostores/react"
-
-import { contentState } from "@/store/contentState"
+import { AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import { useSwipeable } from "react-swipeable"
+
+import ActionButtons from "@/components/Article/ActionButtons"
+import ArticleDetail from "@/components/Article/ArticleDetail"
+import FadeTransition from "@/components/ui/FadeTransition"
+import useContentContext from "@/hooks/useContentContext"
+import useScreenWidth from "@/hooks/useScreenWidth"
+import { contentState } from "@/store/contentState"
 
 const Article = () => {
   const { activeContent, isArticleLoading } = useStore(contentState)

@@ -1,18 +1,14 @@
-import { Button, Notification, Typography } from "@arco-design/web-react"
-import { IconEmpty, IconLeft, IconRight } from "@arco-design/web-react/icon"
+import { Button, Notification } from "@arco-design/web-react"
 import { useStore } from "@nanostores/react"
-import { AnimatePresence } from "framer-motion"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
+import { Outlet, useParams } from "react-router"
 import { useSwipeable } from "react-swipeable"
 
 import FooterPanel from "./FooterPanel"
 
-import ActionButtons from "@/components/Article/ActionButtons"
-import ArticleDetail from "@/components/Article/ArticleDetail"
 import ArticleList from "@/components/Article/ArticleList"
 import SearchAndSortBar from "@/components/Article/SearchAndSortBar"
-import FadeTransition from "@/components/ui/FadeTransition"
 import useAppData from "@/hooks/useAppData"
 import useArticleList from "@/hooks/useArticleList"
 import useContentContext from "@/hooks/useContentContext"
@@ -21,14 +17,14 @@ import useEntryActions from "@/hooks/useEntryActions"
 import useKeyHandlers from "@/hooks/useKeyHandlers"
 import { polyglotState } from "@/hooks/useLanguage"
 import useScreenWidth from "@/hooks/useScreenWidth"
+import Article from "@/pages/Article"
 import { contentState, setActiveContent, setInfoFrom, setOffset } from "@/store/contentState"
 import { dataState } from "@/store/dataState"
 import { duplicateHotkeysState, hotkeysState } from "@/store/hotkeysState"
 import { settingsState } from "@/store/settingsState"
+import { ANIMATION_DURATION_MS } from "@/utils/constants"
 
 import "./Content.css"
-import { Outlet, useParams } from "react-router"
-import Article from "../../pages/Article.jsx"
 
 const Content = ({ info, getEntries, markAllAsRead }) => {
   const { articleId } = useParams()
@@ -48,6 +44,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   const { entryDetailRef, entryListRef, handleEntryClick, handleEntryActive } = useContentContext()
 
   const {
+    scrollSelectedCardIntoView,
     exitDetailView,
     fetchOriginalArticle,
     navigateToNextArticle,
@@ -163,6 +160,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     setInfoFrom(info.from)
     if (activeContent) {
       setActiveContent(null)
+      return
     }
     refreshArticleList(getEntries)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -182,11 +180,15 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   }, [filterDate, orderDirection, showStatus])
 
   useEffect(() => {
-    if (articleId && !activeContent) {
+    if (articleId) {
       const entry = entries.find((entry) => entry.id === Number.parseInt(articleId))
       if (entry) {
         setActiveContent(entry)
+        setTimeout(() => scrollSelectedCardIntoView(), ANIMATION_DURATION_MS)
       }
+    }
+    if (!articleId && activeContent) {
+      setActiveContent(null)
     }
   }, [articleId, entries])
 
