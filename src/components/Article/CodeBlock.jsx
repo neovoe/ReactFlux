@@ -3,7 +3,7 @@ import { IconCopy } from "@arco-design/web-react/icon"
 import { useStore } from "@nanostores/react"
 import hljs from "highlight.js"
 import { useCallback, useEffect, useState } from "react"
-import { gradientLight, gradientDark } from "react-syntax-highlighter/dist/esm/styles/hljs"
+import { idea, dracula } from "react-syntax-highlighter/dist/esm/styles/hljs"
 
 import CustomTooltip from "@/components/ui/CustomTooltip"
 import { polyglotState } from "@/hooks/useLanguage"
@@ -50,7 +50,7 @@ const CodeBlock = ({ children }) => {
       <SyntaxHighlighter
         language={language}
         showLineNumbers={false}
-        style={document.body.style.colorScheme === "dark" ? gradientDark : gradientLight}
+        style={window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? dracula : idea}
         wrapLines={false}
       >
         {code}
