@@ -1,22 +1,14 @@
 import { Tabs } from "@arco-design/web-react"
-import {
-  IconCommand,
-  IconFile,
-  IconFolder,
-  IconSkin,
-  IconStorage,
-} from "@arco-design/web-react/icon"
+import { IconFile, IconFolder } from "@arco-design/web-react/icon"
 import { useStore } from "@nanostores/react"
 import SimpleBar from "simplebar-react"
 
-import Appearance from "./Appearance"
-import General from "./General"
-import Hotkeys from "./Hotkeys"
+import CategoryList from "./CategoryList"
+import FeedList from "./FeedList"
 
 import { polyglotState } from "@/hooks/useLanguage"
-import useScreenWidth from "@/hooks/useScreenWidth"
 
-import "./SettingsTabs.css"
+import "./FeedManageTabs.css"
 
 const CustomTabTitle = ({ icon, title }) => (
   <div
@@ -31,9 +23,8 @@ const CustomTabTitle = ({ icon, title }) => (
   </div>
 )
 
-const SettingsTabs = ({ activeTab, onTabChange }) => {
+const FeedManageTabs = ({ activeTab, onTabChange }) => {
   const { polyglot } = useStore(polyglotState)
-  const { isBelowMedium } = useScreenWidth()
 
   return (
     <SimpleBar
@@ -55,40 +46,27 @@ const SettingsTabs = ({ activeTab, onTabChange }) => {
           key="1"
           title={
             <CustomTabTitle
-              icon={<IconStorage style={{ fontSize: "20px" }} />}
-              title={polyglot.t("settings.general")}
+              icon={<IconFile style={{ fontSize: "20px" }} />}
+              title={polyglot.t("settings.feeds")}
             />
           }
         >
-          <General />
+          <FeedList />
         </Tabs.TabPane>
         <Tabs.TabPane
           key="2"
           title={
             <CustomTabTitle
-              icon={<IconSkin style={{ fontSize: "20px" }} />}
-              title={polyglot.t("settings.appearance")}
+              icon={<IconFolder style={{ fontSize: "20px" }} />}
+              title={polyglot.t("settings.categories")}
             />
           }
         >
-          <Appearance />
+          <CategoryList />
         </Tabs.TabPane>
-        {!isBelowMedium && (
-          <Tabs.TabPane
-            key="3"
-            title={
-              <CustomTabTitle
-                icon={<IconCommand style={{ fontSize: "20px" }} />}
-                title={polyglot.t("settings.hotkeys")}
-              />
-            }
-          >
-            <Hotkeys />
-          </Tabs.TabPane>
-        )}
       </Tabs>
     </SimpleBar>
   )
 }
 
-export default SettingsTabs
+export default FeedManageTabs

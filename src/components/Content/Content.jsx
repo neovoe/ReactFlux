@@ -44,7 +44,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   const { entryDetailRef, entryListRef, handleEntryClick, handleEntryActive } = useContentContext()
 
   const {
-    scrollSelectedCardIntoView,
+    navigateToSelectedCard,
     exitDetailView,
     fetchOriginalArticle,
     navigateToNextArticle,
@@ -184,7 +184,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       const entry = entries.find((entry) => entry.id === Number.parseInt(articleId))
       if (entry) {
         setActiveContent(entry)
-        setTimeout(() => scrollSelectedCardIntoView(), ANIMATION_DURATION_MS)
+        navigateToSelectedCard()
       }
     }
     if (!articleId && activeContent) {

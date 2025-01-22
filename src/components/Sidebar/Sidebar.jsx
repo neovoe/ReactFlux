@@ -15,11 +15,14 @@ import {
   IconDownload,
   IconEye,
   IconEyeInvisible,
+  IconFile,
+  IconFolder,
   IconHistory,
   IconMinusCircle,
   IconMoreVertical,
   IconRecord,
   IconRight,
+  IconSettings,
   IconStar,
   IconUnorderedList,
   IconUpload,
@@ -38,6 +41,7 @@ import { exportOPML, importOPML } from "@/apis"
 import FeedIcon from "@/components/ui/FeedIcon"
 import useAppData from "@/hooks/useAppData"
 import { polyglotState } from "@/hooks/useLanguage"
+import useModalToggle from "@/hooks/useModalToggle"
 import useScreenWidth from "@/hooks/useScreenWidth"
 import { contentState, setActiveContent } from "@/store/contentState"
 import {
@@ -287,6 +291,7 @@ const CategoryGroup = () => {
 }
 
 const MoreOptionsDropdown = () => {
+  const { setFeedManageVisible } = useModalToggle()
   const { showHiddenFeeds, showUnreadFeedsOnly } = useStore(settingsState)
   const { polyglot } = useStore(polyglotState)
 
@@ -371,6 +376,11 @@ const MoreOptionsDropdown = () => {
         trigger="click"
         droplist={
           <Menu>
+            <MenuItem key="0" onClick={() => setFeedManageVisible(true)}>
+              <IconFile className="icon-right" />
+              {polyglot.t("sidebar.manage_feeds")}
+            </MenuItem>
+            <Divider style={{ margin: "4px 0" }} />
             <MenuItem key="1" onClick={handleToggleFeedsVisibility}>
               {showHiddenFeeds ? (
                 <IconEyeInvisible className="icon-right" />

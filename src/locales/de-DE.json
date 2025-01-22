@@ -31,6 +31,7 @@
     "feeds": "Abonnements",
     "logout_success": "Erfolgreich ausgeloggt",
     "add_feed": "Abonnement hinzufügen",
+    "feeds_manage": "Abonnements verwalten",
     "show_hidden_feeds": "Versteckte Abonnements anzeigen",
     "hide_hidden_feeds": "Versteckte Abonnements ausblenden",
     "show_read_feeds": "Gelesene Abonnements anzeigen",

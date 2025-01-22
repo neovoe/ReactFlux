@@ -6,6 +6,7 @@ import { Outlet, useNavigate } from "react-router"
 import { addFeed } from "@/apis"
 import { ContextProvider } from "@/components/Content/ContentContext"
 import SettingsTabs from "@/components/Settings/SettingsTabs"
+import FeedManageTabs from "@/components/Sidebar/FeedManageTabs"
 import useAppData from "@/hooks/useAppData"
 import { polyglotState } from "@/hooks/useLanguage"
 import useModalToggle from "@/hooks/useModalToggle"
@@ -41,6 +42,36 @@ const SettingsModal = () => {
       }}
     >
       <SettingsTabs activeTab={settingsTabsActiveTab} onTabChange={setSettingsTabsActiveTab} />
+    </Modal>
+  )
+}
+
+const FeedManageModal = () => {
+  const {
+    feedManageVisible,
+    setFeedManageVisible,
+    feedManageTabsActiveTab,
+    setFeedManageTabsActiveTab,
+  } = useModalToggle()
+
+  return (
+    <Modal
+      autoFocus
+      focusLock
+      unmountOnExit
+      alignCenter={false}
+      className="settings-modal"
+      footer={null}
+      title={null}
+      visible={feedManageVisible}
+      onCancel={() => {
+        setFeedManageVisible(false)
+      }}
+    >
+      <FeedManageTabs
+        activeTab={feedManageTabsActiveTab}
+        onTabChange={setFeedManageTabsActiveTab}
+      />
     </Modal>
   )
 }
@@ -133,6 +164,7 @@ const AddFeedModal = () => {
         >
           <Select
             showSearch
+            defaultValue={"all"}
             placeholder={polyglot.t("main.add_feed_modal_category_placeholder")}
             filterOption={(inputValue, option) =>
               includesIgnoreCase(option.props.children, inputValue)
@@ -167,6 +199,7 @@ const Main = () => (
     </ContextProvider>
     <SettingsModal />
     <AddFeedModal />
+    <FeedManageModal />
   </div>
 )
 
