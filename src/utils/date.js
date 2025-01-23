@@ -25,7 +25,7 @@ export const getDayEndTimestamp = (dateString) => dayjs(dateString).endOf("day")
 export const getUTCDate = () => dayjs().utc().format("YYYY-MM-DDTHH:mm:ss.SSSSSSZ")
 
 export const generateReadableDate = (dateString) =>
-  dayjs(dateString).format("dddd, MMMM D, YYYY h:mm A")
+  dayjs(dateString).format("YYYY年MM月DD日 HH:mm · dddd")
 
 export const generateRelativeTime = (dateString, showDetailed) => {
   const { polyglot } = polyglotState.get()

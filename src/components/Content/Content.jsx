@@ -130,7 +130,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   }, [duplicateHotkeys, polyglot, showHotkeysSettings])
 
   useEffect(() => {
-    const contactInfo = info.id ? (info.from + "/" + info.id) : info.from
+    const contactInfo = info.id ? info.from + "/" + info.id : info.from
     if (articleId || contactInfo === infoFrom) {
       return
     }

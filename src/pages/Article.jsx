@@ -1,4 +1,4 @@
-import { Typography } from "@arco-design/web-react"
+import { Divider, Typography } from "@arco-design/web-react"
 import { IconEmpty, IconLeft, IconRight } from "@arco-design/web-react/icon"
 import { useStore } from "@nanostores/react"
 import { AnimatePresence } from "framer-motion"
@@ -20,10 +20,7 @@ const Article = () => {
   const [isSwipingRight, setIsSwipingRight] = useState(false)
   const { isBelowMedium } = useScreenWidth()
 
-  const {
-    navigateToNextArticle,
-    navigateToPreviousArticle
-  } = useKeyHandlers()
+  const { navigateToNextArticle, navigateToPreviousArticle } = useKeyHandlers()
 
   const handleSwiping = (eventData) => {
     setIsSwipingLeft(eventData.dir === "Left")
@@ -52,6 +49,7 @@ const Article = () => {
   return activeContent ? (
     <div className="article-container content-wrapper">
       {!isBelowMedium && <ActionButtons />}
+      {!isBelowMedium && <Divider style={{ margin: "0" }} />}
       {isArticleLoading ? (
         <div style={{ flex: 1 }} />
       ) : (

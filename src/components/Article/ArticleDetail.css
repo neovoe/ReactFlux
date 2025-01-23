@@ -2,10 +2,10 @@
   --article-width: 60%;
   --image-margin: calc((var(--image-scale) - 100%) / -2);
   --image-scale: calc((100 / var(--article-width)) * 100%);
-  line-height: 1.8;
-  margin: 0 auto;
+  line-height: 1.6;
+  padding: 0 1.25rem 5rem;
+  margin: auto;
   overflow-wrap: break-word;
-  padding-bottom: 40px;
 }
 
 .article-body img {
@@ -53,7 +53,7 @@ h6,
 b,
 strong {
   color: var(--color-text-1);
-  font-weight: var(--font-weight-500);
+  font-weight: var(--font-weight-600);
 }
 
 .article-content li,
@@ -71,7 +71,8 @@ p {
 
 .article-content code,
 .article-content pre {
-  font-family: ui-monospace, "JetBrains Mono", Menlo, Monaco, Consolas, 'Source Code Pro', 'Courier Prime', monospace;
+  font-family: ui-monospace, "JetBrains Mono", Menlo, Monaco, Consolas, "Source Code Pro",
+    "Courier Prime", monospace;
 }
 
 .article-content pre {
@@ -86,7 +87,6 @@ p {
 
 .article-header {
   margin: 0 auto;
-  padding-top: 20px;
 }
 
 .article-meta .arco-typography {
@@ -104,6 +104,7 @@ p {
 .article-title.arco-typography {
   word-break: normal;
   overflow-wrap: break-word;
+  text-wrap: balance;
 }
 
 .scroll-container {
@@ -118,7 +119,7 @@ p {
 /* 文章标题链接样式 */
 .article-title a {
   color: var(--color-text-1); /* 设置链接文字颜色 */
-  font-weight: 500;
+  font-weight: var(--font-weight-600);
   text-decoration: none;
 }
 
