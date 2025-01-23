@@ -50,8 +50,12 @@ const CodeBlock = ({ children }) => {
       <SyntaxHighlighter
         language={language}
         showLineNumbers={false}
-        style={window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? dracula : idea}
         wrapLines={false}
+        style={
+          window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? dracula
+            : idea
+        }
       >
         {code}
       </SyntaxHighlighter>

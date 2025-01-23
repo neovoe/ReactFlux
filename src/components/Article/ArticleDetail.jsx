@@ -296,9 +296,11 @@ const ArticleDetail = forwardRef((_, ref) => {
               <Typography.Text>
                 <CustomLink text={feedTitle} url={`/feed/${feedId}`} />
               </Typography.Text>
-              <Typography.Text style={{ cursor: "pointer" }} onClick={handleAuthorFilter}>
-                {` - ${activeContent.author}`}
-              </Typography.Text>
+              {activeContent.author && (
+                <Typography.Text style={{ cursor: "pointer" }} onClick={handleAuthorFilter}>
+                  {` - ${activeContent.author}`}
+                </Typography.Text>
+              )}
               <Typography.Text>
                 <Tag
                   size="small"
