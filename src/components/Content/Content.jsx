@@ -159,7 +159,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   useEffect(() => {
     if (articleId) {
       const entry = entries.find((entry) => entry.id === Number.parseInt(articleId))
-      if (entry) {
+      if (entry && (!activeContent || activeContent.id !== articleId)) {
         setActiveContent(entry)
         navigateToSelectedCard()
       }
