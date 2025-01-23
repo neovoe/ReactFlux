@@ -36,7 +36,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
 
   useDocumentTitle()
 
-  const { entryListRef, handleEntryClick } = useContentContext()
+  const { entryListRef, handleEntryClick, handleEntryActive } = useContentContext()
 
   const {
     navigateToSelectedCard,
@@ -157,17 +157,25 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   }, [filterDate, orderDirection, showStatus])
 
   useEffect(() => {
+    if (articleId && !activeContent) {
+      const entry = entries.find((entry) => entry.id === Number.parseInt(articleId))
+      if (entry) {
+        handleEntryActive(entry)
+      }
+    }
+  }, [entries])
+
+  useEffect(() => {
     if (articleId) {
       const entry = entries.find((entry) => entry.id === Number.parseInt(articleId))
-      if (entry && (!activeContent || activeContent.id !== articleId)) {
-        setActiveContent(entry)
-        navigateToSelectedCard()
+      if (entry && activeContent && activeContent.id !== articleId) {
+        handleEntryActive(entry)
       }
     }
     if (!articleId && activeContent) {
       setActiveContent(null)
     }
-  }, [articleId, entries])
+  }, [articleId])
 
   return (
     <>

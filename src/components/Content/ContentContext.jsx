@@ -1,6 +1,6 @@
 import { Message } from "@arco-design/web-react"
 import { useStore } from "@nanostores/react"
-import { createContext, useCallback, useMemo, useRef } from "react"
+import { createContext, useCallback, useMemo, useRef, useState } from "react"
 import { useNavigate } from "react-router"
 
 import { updateEntriesStatus } from "@/apis"
@@ -13,6 +13,7 @@ const Context = createContext()
 
 export const ContextProvider = ({ children }) => {
   const polyglot = useStore(polyglotState)
+  const [isClickEntry, setIsClickEntry] = useState(false)
 
   const entryDetailRef = useRef(null)
   const entryListRef = useRef(null)
@@ -22,33 +23,11 @@ export const ContextProvider = ({ children }) => {
 
   const handleEntryClick = useCallback(
     async (entry) => {
-      setIsArticleLoading(true)
+      setIsClickEntry(true)
 
-      setActiveContent({ ...entry, status: "read" })
-      setTimeout(() => {
-        const articleContent = entryDetailRef.current
-        if (articleContent) {
-          const contentWrapper = articleContent.querySelector(".simplebar-content-wrapper")
-          if (contentWrapper) {
-            contentWrapper.scroll({ top: 0 })
-          }
-          articleContent.focus()
-        }
-
-        // 获取当前路径并去掉 article 部分
-        const basePath = window.location.pathname.split("/article/")[0]
-        navigate(basePath + `/article/${entry.id}`)
-
-        setIsArticleLoading(false)
-        if (entry.status === "unread") {
-          handleEntryStatusUpdate(entry, "read")
-          updateEntriesStatus([entry.id], "read").catch(() => {
-            Message.error(polyglot.t("content.mark_as_read_error"))
-            // setActiveContent({ ...entry, status: "unread" })
-            handleEntryStatusUpdate(entry, "unread")
-          })
-        }
-      }, ANIMATION_DURATION_MS)
+      // 获取当前路径并去掉 article 部分
+      const basePath = window.location.pathname.split("/article/")[0]
+      navigate(basePath + `/article/${entry.id}`)
     },
     [polyglot, handleEntryStatusUpdate],
   )
@@ -58,6 +37,22 @@ export const ContextProvider = ({ children }) => {
       setIsArticleLoading(true)
 
       setActiveContent({ ...entry, status: "read" })
+
+      if (!isClickEntry) {
+        setTimeout(() => {
+          if (entryListRef.current) {
+            const selectedCard = entryListRef.current.el.querySelector(".card-wrapper.selected")
+            if (selectedCard) {
+              selectedCard.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              })
+            }
+          }
+        }, ANIMATION_DURATION_MS)
+      }
+      setIsClickEntry(false)
+
       setTimeout(() => {
         const articleContent = entryDetailRef.current
         if (articleContent) {
