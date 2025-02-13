@@ -2,7 +2,7 @@ import { Divider, Tag, Typography } from "@arco-design/web-react"
 import { useStore } from "@nanostores/react"
 import ReactHtmlParser from "html-react-parser"
 import { littlefoot } from "littlefoot"
-import { forwardRef, useEffect } from "react"
+import React, { forwardRef, useEffect } from "react"
 import { PhotoSlider } from "react-photo-view"
 import { useNavigate } from "react-router"
 import "react-photo-view/dist/react-photo-view.css"
@@ -18,7 +18,7 @@ import usePhotoSlider from "@/hooks/usePhotoSlider"
 import useScreenWidth from "@/hooks/useScreenWidth"
 import { contentState, setFilterString, setFilterType } from "@/store/contentState"
 import { settingsState } from "@/store/settingsState"
-import { generateReadableDate, generateReadingTime } from "@/utils/date"
+import { generateReadableDate } from "@/utils/date"
 import { extractImageSources } from "@/utils/images"
 import "./ArticleDetail.css"
 import "./littlefoot.css"
@@ -64,7 +64,7 @@ const handleImage = (node, imageSources, togglePhotoSlider) => {
 
 const htmlEntities = {
   "&#39;": "'",
-  "&quot;": '"',
+  "&quot;": "\"",
   "&lt;": "<",
   "&gt;": ">",
   "&amp;": "&",
@@ -147,16 +147,25 @@ const handleFigure = (node, imageSources, togglePhotoSlider) => {
   // Handle multiple images in figure
   if (hasImages) {
     return (
-      <>
+      <figure>
         {node.children.map(
-          (child, index) =>
-            child.name === "img" && (
-              <div key={`figure-img-${index}`}>
+          (child, index) => {
+            if (child.name === "img") {
+              return (<div key={`figure-img-${index}`}>
                 {handleImage(child, imageSources, togglePhotoSlider)}
-              </div>
-            ),
+              </div>)
+            } else if (child.name === "figcaption") {
+              return <figcaption key={`figure-child-${index}`}>
+                {child.type === "text" ? child.data : ReactHtmlParser(child.children.map(c => c.data).join(""))}
+              </figcaption>
+            } else if (child.type === "tag" || child.type === "text") {
+              return <React.Fragment key={`figure-child-${index}`}>
+                {child.type === "text" ? child.data : ReactHtmlParser(child.children.map(c => c.data).join(""))}
+              </React.Fragment>
+            }
+          },
         )}
-      </>
+      </figure>
     )
   }
 
