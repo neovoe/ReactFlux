@@ -32,5 +32,11 @@
 
 .link-tag {
   cursor: pointer;
-  max-width: calc(100% - 32px);
+  position: absolute;
+  max-width: 100%;
+  margin-left: -50%;
+  margin-top: -34px;
+  border-top-left-radius: unset;
+  border-top-right-radius: unset;
+  z-index: 1;
 }
