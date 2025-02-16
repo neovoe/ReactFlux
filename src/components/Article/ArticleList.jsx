@@ -6,8 +6,9 @@ import { useInView } from "react-intersection-observer"
 import SimpleBar from "simplebar-react"
 import { Virtualizer } from "virtua"
 
-import ArticleCard from "./ArticleCard"
-import LoadingCards from "./LoadingCards"
+import ArticleCard from "@/components/Article/ArticleCard"
+import LoadingCards from "@/components/Article/LoadingCards"
+import ArticleButtons from "@/components/Article/ArticleButtons"
 
 import FadeTransition from "@/components/ui/FadeTransition"
 import Ripple from "@/components/ui/Ripple"
@@ -89,6 +90,7 @@ const ArticleList = forwardRef(({ getEntries, handleEntryClick, cardsRef }, ref)
                 <ArticleCard entry={entry} handleEntryClick={handleEntryClick}>
                   <Ripple color="var(--color-text-4)" duration={1000} />
                 </ArticleCard>
+                <ArticleButtons entry={entry} />
                 {index < filteredEntries.length - 1 && (
                   <Divider
                     style={{

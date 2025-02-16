@@ -87,7 +87,8 @@
     "unstar_tooltip": "取消收藏",
     "fetch_original_tooltip": "获取原文",
     "save_to_third_party_services_tooltip": "保存到第三方服务",
-    "share_tooltip": "分享"
+    "share_tooltip": "分享",
+    "open_link_tooltip": "直接打开链接"
   },
   "article_list": {
     "sort_direction_desc": "最新优先",
