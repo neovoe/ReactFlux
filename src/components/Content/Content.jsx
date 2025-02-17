@@ -185,7 +185,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
           opacity: isBelowMedium && isArticleLoading ? 0 : 1,
         }}
       >
-        <SearchAndSortBar />
+        <SearchAndSortBar info={info} />
         <ArticleList
           ref={entryListRef}
           cardsRef={cardsRef}
