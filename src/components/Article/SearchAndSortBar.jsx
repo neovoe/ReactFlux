@@ -21,8 +21,8 @@ import { getStartOfToday } from "@/utils/date"
 
 import "./SearchAndSortBar.css"
 
-const SearchAndSortBar = () => {
-  const { filterDate, filterString, filterType } = useStore(contentState)
+const SearchAndSortBar = ({ info }) => {
+  const { filterDate, filterString, filterType, infoFrom } = useStore(contentState)
   const { orderDirection, showStatus } = useStore(settingsState)
   const { polyglot } = useStore(polyglotState)
   const tooltipLines = polyglot.t("search.tooltip").split("\n")
@@ -51,10 +51,13 @@ const SearchAndSortBar = () => {
   }
 
   useEffect(() => {
-    setFilterDate(null)
-    setFilterType("title")
-    setFilterString("")
-    setIsMount(false)
+    const contactInfo = info.id ? (info.from + "/" + info.id) : info.from
+    if (contactInfo !== infoFrom) {
+      setFilterDate(null)
+      setFilterType("title")
+      setFilterString("")
+      setIsMount(false)
+    }
   }, [location.pathname, showStatus])
 
   useEffect(() => {
