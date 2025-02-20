@@ -64,7 +64,7 @@ const handleImage = (node, imageSources, togglePhotoSlider) => {
 
 const htmlEntities = {
   "&#39;": "'",
-  "&quot;": "\"",
+  "&quot;": '"',
   "&lt;": "<",
   "&gt;": ">",
   "&amp;": "&",
@@ -148,23 +148,31 @@ const handleFigure = (node, imageSources, togglePhotoSlider) => {
   if (hasImages) {
     return (
       <figure>
-        {node.children.map(
-          (child, index) => {
-            if (child.name === "img") {
-              return (<div key={`figure-img-${index}`}>
+        {node.children.map((child, index) => {
+          if (child.name === "img") {
+            return (
+              <div key={`figure-img-${index}`}>
                 {handleImage(child, imageSources, togglePhotoSlider)}
-              </div>)
-            } else if (child.name === "figcaption") {
-              return <figcaption key={`figure-child-${index}`}>
-                {child.type === "text" ? child.data : ReactHtmlParser(child.children.map(c => c.data).join(""))}
+              </div>
+            )
+          } else if (child.name === "figcaption") {
+            return (
+              <figcaption key={`figure-child-${index}`}>
+                {child.type === "text"
+                  ? child.data
+                  : ReactHtmlParser(child.children.map((c) => c.data).join(""))}
               </figcaption>
-            } else if (child.type === "tag" || child.type === "text") {
-              return <React.Fragment key={`figure-child-${index}`}>
-                {child.type === "text" ? child.data : ReactHtmlParser(child.children.map(c => c.data).join(""))}
+            )
+          } else if (child.type === "tag" || child.type === "text") {
+            return (
+              <React.Fragment key={`figure-child-${index}`}>
+                {child.type === "text"
+                  ? child.data
+                  : ReactHtmlParser(child.children.map((c) => c.data).join(""))}
               </React.Fragment>
-            }
-          },
-        )}
+            )
+          }
+        })}
       </figure>
     )
   }

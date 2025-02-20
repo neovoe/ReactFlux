@@ -51,7 +51,7 @@ const SearchAndSortBar = ({ info }) => {
   }
 
   useEffect(() => {
-    const contactInfo = info.id ? (info.from + "/" + info.id) : info.from
+    const contactInfo = info.id ? info.from + "/" + info.id : info.from
     if (contactInfo !== infoFrom) {
       setFilterDate(null)
       setFilterType("title")

@@ -21,11 +21,13 @@ const ImageComponent = ({ imgNode, isIcon, isBigImage, index, togglePhotoSlider 
       }}
     />
   ) : (
-    <div style={{
-      position: "relative",
-      backgroundColor: "var(--color-fill-2)",
-      borderRadius: "var(--border-radius-small)",
-    }}>
+    <div
+      style={{
+        position: "relative",
+        backgroundColor: "var(--color-fill-2)",
+        borderRadius: "var(--border-radius-small)",
+      }}
+    >
       <img
         {...imgNode.attribs}
         alt={imgNode.attribs.alt ?? "image"}

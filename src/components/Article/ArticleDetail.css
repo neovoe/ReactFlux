@@ -71,8 +71,9 @@ p {
 
 .article-content code,
 .article-content pre {
-  font-family: ui-monospace, "JetBrains Mono", Menlo, Monaco, Consolas, "Source Code Pro",
-    "Courier Prime", monospace;
+  font-family:
+    ui-monospace, "JetBrains Mono", Menlo, Monaco, Consolas, "Source Code Pro", "Courier Prime",
+    monospace;
 }
 
 .article-content pre {
@@ -191,26 +192,6 @@ p {
     max-width: var(--image-scale);
   }
 
-  .article-body table {
-    display: block;
-    max-width: 100%;
-  }
-
-  .article-body tbody {
-    display: block;
-    width: 100%;
-  }
-
-  .article-body tr {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .article-body td {
-    display: block;
-    width: 100%;
-  }
-
   .article-body td .big-image,
   .article-body td .image-overlay-button {
     margin: 10px 0;
@@ -235,6 +216,23 @@ p {
 }
 
 /*code 相关样式 - 表格 */
-.article-content td {
-  color: var(--color-text-3);
+.article-body table {
+  margin: auto;
+  text-align: center;
+  font-size: smaller;
+  line-height: 1.5;
+  border-collapse: collapse;
+  border-spacing: 4px;
+  overflow: auto;
+  display: block;
+  overflow-x: scroll;
+  word-break: normal;
+  font-feature-settings:
+    "calt", "ss01", "ss02", "ss03", "cv01", "cv02", "cv03", "cv04", "cv09", "cv10", "zero", "tnum";
+}
+
+.article-body table tr th,
+.article-body table tr td {
+  border: 1px outset var(--color-text-4);
+  padding: 4px;
 }

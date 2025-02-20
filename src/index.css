@@ -1,3 +1,19 @@
+@font-face {
+  font-family: Inter;
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  src: url("/fonts/InterVariable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Inter;
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+  src: url("/fonts/InterVariable-Italic.woff2") format("woff2");
+}
+
 ::-webkit-input-placeholder,
 button,
 input,
@@ -38,7 +54,7 @@ html {
 }
 
 body {
-  font-feature-settings: 'calt', 'ss01', 'ss03', 'cv01', 'cv02', 'cv03', 'cv04', 'cv09', 'cv10';
+  font-feature-settings: "calt", "ss01", "ss03", "cv01", "cv02", "cv03", "cv04", "cv09", "cv10";
 }
 
 html,

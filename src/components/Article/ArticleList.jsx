@@ -6,10 +6,9 @@ import { useInView } from "react-intersection-observer"
 import SimpleBar from "simplebar-react"
 import { Virtualizer } from "virtua"
 
+import ArticleButtons from "@/components/Article/ArticleButtons"
 import ArticleCard from "@/components/Article/ArticleCard"
 import LoadingCards from "@/components/Article/LoadingCards"
-import ArticleButtons from "@/components/Article/ArticleButtons"
-
 import FadeTransition from "@/components/ui/FadeTransition"
 import Ripple from "@/components/ui/Ripple"
 import useLoadMore from "@/hooks/useLoadMore"
