@@ -37,6 +37,10 @@ html {
     sans-serif;
 }
 
+body {
+  font-feature-settings: 'calt', 'ss01', 'ss03', 'cv01', 'cv02', 'cv03', 'cv04', 'cv09', 'cv10';
+}
+
 html,
 body,
 #root {
