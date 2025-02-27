@@ -264,6 +264,10 @@ const ActionButtons = () => {
               </Menu.Item>
             )}
 
+            <Menu.Item key="open_link" onClick={() => window.open(activeContent.url, "_blank")}>
+              <span>{polyglot.t("article_card.open_link_tooltip")}</span>
+            </Menu.Item>
+
             {navigator.share && (
               <>
                 <Menu.Item key="share" onClick={handleShare}>

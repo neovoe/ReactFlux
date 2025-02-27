@@ -1,36 +1,40 @@
-.action-buttons {
+.article-buttons {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   z-index: 2;
-  padding: 8px 10px;
+  padding: 0 10px;
 }
 
-.action-buttons .left-side,
-.action-buttons .right-side {
+.article-buttons .left-side,
+.article-buttons .right-side {
   display: flex;
   justify-content: space-between;
   gap: 8px;
 }
 
-.action-buttons .left-side .arco-btn-secondary.arco-btn-disabled {
+.article-buttons .left-side .arco-btn-secondary.arco-btn-disabled {
   background-color: transparent;
 }
 
-.action-buttons .arco-btn-secondary:not(.arco-btn-disabled) {
-  background-color: var(--content-bg-1);
+.article-buttons .arco-btn-secondary:not(.arco-btn-disabled) {
+  /*background-color: var(--content-bg-1);*/
 }
 
-.action-buttons.mobile {
+.article-buttons.mobile {
   padding-left: 30px;
   padding-right: 30px;
 }
 
-.mobile-buttons {
+.article-buttons .mobile-buttons {
   display: flex;
   justify-content: space-between;
   width: 100%;
   gap: 8px;
+}
+
+.article-buttons .mobile-buttons .arco-btn {
+  width: 100%;
 }
 
 .settings-menu-item {

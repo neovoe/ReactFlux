@@ -75,7 +75,7 @@ const ArticleButtons = ({ entry }) => {
       >
         <Button
           icon={isUnread ? <IconMinusCircle /> : <IconRecord />}
-          shape="circle"
+          shape="square"
           onClick={() => handleToggleStatus(entry)}
         />
       </CustomTooltip>
@@ -91,7 +91,7 @@ const ArticleButtons = ({ entry }) => {
       >
         <Button
           icon={isStarred ? <IconStarFill style={{ color: "#ffcd00" }} /> : <IconStar />}
-          shape="circle"
+          shape="square"
           onClick={() => handleToggleStarred(entry)}
         />
       </CustomTooltip>
@@ -101,21 +101,21 @@ const ArticleButtons = ({ entry }) => {
         <Button
           disabled={!hasIntegrations}
           icon={<IconSave />}
-          shape="circle"
+          shape="square"
           onClick={handleSaveToThirdPartyServices}
         />
       </CustomTooltip>
     ),
     share: (
-      <CustomTooltip mini content={polyglot.t("article_card.next_tooltip")}>
-        <Button icon={<IconShareExternal />} shape="circle" onClick={handleShare} />
+      <CustomTooltip mini content={polyglot.t("article_card.share_tooltip")}>
+        <Button icon={<IconShareExternal />} shape="square" onClick={handleShare} />
       </CustomTooltip>
     ),
     openLink: (
       <CustomTooltip mini content={polyglot.t("article_card.open_link_tooltip")}>
         <Button
           icon={<IconLaunch />}
-          shape="circle"
+          shape="square"
           onClick={() => window.open(entry.url, "_blank")}
         />
       </CustomTooltip>
@@ -123,7 +123,7 @@ const ArticleButtons = ({ entry }) => {
   }
 
   return (
-    <div className={`action-buttons`}>
+    <div className={`article-buttons`}>
       <MobileButtons commonButtons={commonButtons} />
     </div>
   )
