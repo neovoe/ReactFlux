@@ -21,7 +21,7 @@
   ],
   "theme_color": "#1F2327",
   "background_color": "#ffffff",
+  "display_override": ["standalone", "fullscreen", "minimal-ui"],
   "display": "fullscreen",
-  "fullscreen": "true",
   "start_url": "/"
 }
