@@ -16,13 +16,11 @@ import {
   IconEye,
   IconEyeInvisible,
   IconFile,
-  IconFolder,
   IconHistory,
   IconMinusCircle,
   IconMoreVertical,
   IconRecord,
   IconRight,
-  IconSettings,
   IconStar,
   IconUnorderedList,
   IconUpload,
@@ -31,7 +29,6 @@ import { useStore } from "@nanostores/react"
 import classNames from "classnames"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router"
-import SimpleBar from "simplebar-react"
 import { Virtualizer } from "virtua"
 
 import AddFeed from "./AddFeed.jsx"
@@ -243,20 +240,20 @@ const FeedMenuGroup = ({ categoryId }) => {
   )
 
   return (
-    <SimpleBar
+    <div
       ref={parentRef}
-      style={{ maxHeight: 400 }}
-      scrollableNodeProps={{
-        ref: scrollableNodeRef,
-        style: { minHeight: "40px" },
+      style={{
+        maxHeight: 400,
+        overflowY: "auto",
+        minHeight: "40px",
       }}
     >
-      <Virtualizer overscan={10} scrollRef={scrollableNodeRef}>
+      <Virtualizer overscan={10} scrollRef={parentRef} style={{ position: "relative" }}>
         {filteredFeeds.map((feed) => (
           <FeedMenuItem key={feed.id} feed={feed} />
         ))}
       </Virtualizer>
-    </SimpleBar>
+    </div>
   )
 }
 
@@ -447,7 +444,7 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar-container">
-      <SimpleBar style={{ maxHeight: "100%" }}>
+      <div className="scroll-container" style={{ maxHeight: "100%" }}>
         <Menu hasCollapseButton={false} selectedKeys={selectedKeys}>
           <div className="menu-header">
             <span style={{ display: "flex", alignItems: "center" }}>
@@ -486,7 +483,7 @@ const Sidebar = () => {
             </Collapse>
           )}
         </Menu>
-      </SimpleBar>
+      </div>
     </div>
   )
 }

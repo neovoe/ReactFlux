@@ -6,7 +6,6 @@ import React, { forwardRef, useEffect } from "react"
 import { PhotoSlider } from "react-photo-view"
 import { useNavigate } from "react-router"
 import "react-photo-view/dist/react-photo-view.css"
-import SimpleBar from "simplebar-react"
 
 import CodeBlock from "./CodeBlock"
 import ImageOverlayButton from "./ImageOverlayButton"
@@ -289,12 +288,12 @@ const ArticleDetail = forwardRef((_, ref) => {
   }, [])
 
   return (
-    <article
-      ref={ref}
-      className={`article-content ${edgeToEdgeImages ? "edge-to-edge" : ""}`}
-      tabIndex={-1}
-    >
-      <SimpleBar className="scroll-container">
+    <div className="article-scroll-container">
+      <article
+        ref={ref}
+        className={`article-content ${edgeToEdgeImages ? "edge-to-edge" : ""}`}
+        tabIndex={-1}
+      >
         <FadeTransition y={20}>
           <div
             className="article-header"
@@ -369,8 +368,8 @@ const ArticleDetail = forwardRef((_, ref) => {
             />
           </div>
         </FadeTransition>
-      </SimpleBar>
-    </article>
+      </article>
+    </div>
   )
 })
 ArticleDetail.displayName = "ArticleDetail"

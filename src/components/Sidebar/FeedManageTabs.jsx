@@ -1,7 +1,6 @@
 import { Tabs } from "@arco-design/web-react"
 import { IconFile, IconFolder } from "@arco-design/web-react/icon"
 import { useStore } from "@nanostores/react"
-import SimpleBar from "simplebar-react"
 
 import CategoryList from "./CategoryList"
 import FeedList from "./FeedList"
@@ -27,7 +26,7 @@ const FeedManageTabs = ({ activeTab, onTabChange }) => {
   const { polyglot } = useStore(polyglotState)
 
   return (
-    <SimpleBar
+    <div
       style={{
         maxHeight: "80vh",
         overflow: "auto",
@@ -65,7 +64,7 @@ const FeedManageTabs = ({ activeTab, onTabChange }) => {
           <CategoryList />
         </Tabs.TabPane>
       </Tabs>
-    </SimpleBar>
+    </div>
   )
 }
 

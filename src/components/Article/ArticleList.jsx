@@ -3,7 +3,6 @@ import { useStore } from "@nanostores/react"
 import { throttle } from "lodash-es"
 import { forwardRef, useCallback, useEffect, useMemo } from "react"
 import { useInView } from "react-intersection-observer"
-import SimpleBar from "simplebar-react"
 import { Virtualizer } from "virtua"
 
 import ArticleButtons from "@/components/Article/ArticleButtons"
@@ -70,15 +69,16 @@ const ArticleList = forwardRef(({ getEntries, handleEntryClick, cardsRef }, ref)
   )
 
   return (
-    <SimpleBar ref={ref} className="entry-list" scrollableNodeProps={{ ref: cardsRef }}>
+    // <SimpleBar ref={ref} className="entry-list" scrollableNodeProps={{ ref: cardsRef }}>
+    <div ref={ref} className="entry-list" style={{ overflow: "auto" }}>
       <LoadingCards />
       {isArticleListReady && (
         <FadeTransition y={20}>
           <Virtualizer
             overscan={10}
-            scrollRef={cardsRef}
+            scrollRef={ref}
             onScroll={() => {
-              const element = cardsRef.current
+              const element = ref.current
               if (element) {
                 checkAndLoadMore(element)
               }
@@ -104,7 +104,7 @@ const ArticleList = forwardRef(({ getEntries, handleEntryClick, cardsRef }, ref)
         </FadeTransition>
       )}
       <LoadMoreComponent getEntries={getEntries} />
-    </SimpleBar>
+    </div>
   )
 })
 ArticleList.displayName = "ArticleList"

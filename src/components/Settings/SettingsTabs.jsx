@@ -1,13 +1,6 @@
 import { Tabs } from "@arco-design/web-react"
-import {
-  IconCommand,
-  IconFile,
-  IconFolder,
-  IconSkin,
-  IconStorage,
-} from "@arco-design/web-react/icon"
+import { IconCommand, IconSkin, IconStorage } from "@arco-design/web-react/icon"
 import { useStore } from "@nanostores/react"
-import SimpleBar from "simplebar-react"
 
 import Appearance from "./Appearance"
 import General from "./General"
@@ -36,7 +29,7 @@ const SettingsTabs = ({ activeTab, onTabChange }) => {
   const { isBelowMedium } = useScreenWidth()
 
   return (
-    <SimpleBar
+    <div
       style={{
         maxHeight: "80vh",
         overflow: "auto",
@@ -87,7 +80,7 @@ const SettingsTabs = ({ activeTab, onTabChange }) => {
           </Tabs.TabPane>
         )}
       </Tabs>
-    </SimpleBar>
+    </div>
   )
 }
 
