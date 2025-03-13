@@ -117,7 +117,10 @@ const ActionButtons = () => {
   const isStarred = activeContent.starred
 
   const fontFamilyOptions = [
-    { label: polyglot.t("appearance.font_family_system"), value: "Inter" },
+    {
+      label: polyglot.t("appearance.font_family_system"),
+      value: "Inter, --apple-system, system-ui, sans-serif",
+    },
     { label: "Sans-serif", value: "sans-serif" },
     { label: "Serif", value: "serif" },
     { label: "Fira Sans", value: "'Fira Sans', sans-serif" },

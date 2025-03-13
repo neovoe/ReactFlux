@@ -19,6 +19,7 @@ button,
 input,
 textarea {
   font-family:
+    Inter,
     -apple-system,
     BlinkMacSystemFont,
     PingFang SC,
@@ -38,6 +39,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family:
+    Inter,
     -apple-system,
     BlinkMacSystemFont,
     PingFang SC,

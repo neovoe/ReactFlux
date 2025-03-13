@@ -6,7 +6,6 @@ import FeedIcon from "@/components/ui/FeedIcon"
 import useEntryActions from "@/hooks/useEntryActions"
 import { contentState } from "@/store/contentState"
 import { settingsState } from "@/store/settingsState"
-import { WIDE_IMAGE_RATIO } from "@/utils/constants"
 import { generateReadingTime, generateRelativeTime } from "@/utils/date"
 import "./ArticleCard.css"
 

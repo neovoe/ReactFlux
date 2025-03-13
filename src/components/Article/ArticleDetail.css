@@ -72,8 +72,8 @@ p {
 .article-content code,
 .article-content pre {
   font-family:
-    ui-monospace, "JetBrains Mono", Menlo, Monaco, Consolas, "Source Code Pro", "Courier Prime",
-    monospace;
+    "TX-02", "Berkeley Mono", ui-monospace, "JetBrains Mono", Menlo, Monaco, Consolas,
+    "Source Code Pro", "Courier Prime", monospace;
 }
 
 .article-content pre {
