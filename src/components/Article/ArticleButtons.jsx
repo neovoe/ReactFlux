@@ -65,60 +65,34 @@ const ArticleButtons = ({ entry }) => {
 
   const commonButtons = {
     status: (
-      <CustomTooltip
-        mini
-        content={
-          isUnread
-            ? polyglot.t("article_card.mark_as_read_tooltip")
-            : polyglot.t("article_card.mark_as_unread_tooltip")
-        }
-      >
-        <Button
-          icon={isUnread ? <IconMinusCircle /> : <IconRecord />}
-          shape="square"
-          onClick={() => handleToggleStatus(entry)}
-        />
-      </CustomTooltip>
+      <Button
+        icon={isUnread ? <IconMinusCircle /> : <IconRecord />}
+        shape="square"
+        onClick={() => handleToggleStatus(entry)}
+      />
     ),
     star: (
-      <CustomTooltip
-        mini
-        content={
-          isStarred
-            ? polyglot.t("article_card.unstar_tooltip")
-            : polyglot.t("article_card.star_tooltip")
-        }
-      >
-        <Button
-          icon={isStarred ? <IconStarFill style={{ color: "#ffcd00" }} /> : <IconStar />}
-          shape="square"
-          onClick={() => handleToggleStarred(entry)}
-        />
-      </CustomTooltip>
+      <Button
+        icon={isStarred ? <IconStarFill style={{ color: "#ffcd00" }} /> : <IconStar />}
+        shape="square"
+        onClick={() => handleToggleStarred(entry)}
+      />
     ),
     saveTo: (
-      <CustomTooltip mini content={polyglot.t("article_card.save_to_third_party_services_tooltip")}>
-        <Button
-          disabled={!hasIntegrations}
-          icon={<IconSave />}
-          shape="square"
-          onClick={handleSaveToThirdPartyServices}
-        />
-      </CustomTooltip>
+      <Button
+        disabled={!hasIntegrations}
+        icon={<IconSave />}
+        shape="square"
+        onClick={handleSaveToThirdPartyServices}
+      />
     ),
-    share: (
-      <CustomTooltip mini content={polyglot.t("article_card.share_tooltip")}>
-        <Button icon={<IconShareExternal />} shape="square" onClick={handleShare} />
-      </CustomTooltip>
-    ),
+    share: <Button icon={<IconShareExternal />} shape="square" onClick={handleShare} />,
     openLink: (
-      <CustomTooltip mini content={polyglot.t("article_card.open_link_tooltip")}>
-        <Button
-          icon={<IconLaunch />}
-          shape="square"
-          onClick={() => window.open(entry.url, "_blank")}
-        />
-      </CustomTooltip>
+      <Button
+        icon={<IconLaunch />}
+        shape="square"
+        onClick={() => window.open(entry.url, "_blank")}
+      />
     ),
   }
 
