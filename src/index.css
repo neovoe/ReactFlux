@@ -24,18 +24,17 @@ textarea {
     BlinkMacSystemFont,
     PingFang SC,
     Hiragino Sans GB,
-    Microsoft YaHei,
-    "\5FAE\8F6F\96C5\9ED1",
+    "Noto Sans SC",
     helvetica neue,
     ubuntu,
     roboto,
     noto,
-    segoe ui,
-    Arial,
+    system-ui,
     sans-serif;
 }
 
-html {
+html,
+body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family:
@@ -44,14 +43,12 @@ html {
     BlinkMacSystemFont,
     PingFang SC,
     Hiragino Sans GB,
-    Microsoft YaHei,
-    "\5FAE\8F6F\96C5\9ED1",
+    "Noto Sans SC",
     helvetica neue,
     ubuntu,
     roboto,
     noto,
-    segoe ui,
-    Arial,
+    system-ui,
     sans-serif;
 }
 

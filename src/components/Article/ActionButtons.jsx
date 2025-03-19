@@ -119,7 +119,7 @@ const ActionButtons = () => {
   const fontFamilyOptions = [
     {
       label: polyglot.t("appearance.font_family_system"),
-      value: "Inter, --apple-system, system-ui, sans-serif",
+      value: "Inter, --apple-system, 'Noto Sans SC', system-ui, sans-serif",
     },
     { label: "Sans-serif", value: "sans-serif" },
     { label: "Serif", value: "serif" },

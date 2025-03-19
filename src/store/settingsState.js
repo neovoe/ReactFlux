@@ -5,7 +5,7 @@ import { getBrowserLanguage } from "@/utils/locales"
 const defaultValue = {
   articleWidth: 75,
   edgeToEdgeImages: false,
-  fontFamily: "Inter, --apple-system, system-ui, sans-serif",
+  fontFamily: "Inter, --apple-system, 'Noto Sans SC', system-ui, sans-serif",
   fontSize: 1.05,
   homePage: "all",
   language: getBrowserLanguage(),
