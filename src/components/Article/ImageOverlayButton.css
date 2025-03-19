@@ -33,7 +33,7 @@
 .link-tag {
   cursor: pointer;
   position: absolute;
-  max-width: 100%;
+  width: 100%;
   margin-left: -50%;
   margin-top: -34px;
   border-top-left-radius: unset;
