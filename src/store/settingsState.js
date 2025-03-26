@@ -4,6 +4,7 @@ import { getBrowserLanguage } from "@/utils/locales"
 
 const defaultValue = {
   articleWidth: 75,
+  coverDisplayMode: "auto",
   edgeToEdgeImages: false,
   fontFamily: "Inter, --apple-system, 'Noto Sans SC', system-ui, sans-serif",
   fontSize: 1.05,
