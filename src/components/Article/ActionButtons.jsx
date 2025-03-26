@@ -7,12 +7,10 @@ import {
   IconCheck,
   IconClose,
   IconCloudDownload,
-  IconLaunch,
   IconMinusCircle,
   IconMoreVertical,
   IconRecord,
   IconSave,
-  IconShareExternal,
   IconStar,
   IconStarFill,
 } from "@arco-design/web-react/icon"
@@ -109,7 +107,6 @@ const ActionButtons = () => {
     handleSaveToThirdPartyServices,
     handleToggleStarred,
     handleToggleStatus,
-    handleOpenLinkExternally,
   } = useEntryActions()
 
   const { exitDetailView, navigateToNextArticle, navigateToPreviousArticle } = useKeyHandlers()
@@ -275,22 +272,13 @@ const ActionButtons = () => {
             </Menu.Item>
 
             {navigator.share && (
-              <Menu.Item key="share" onClick={handleShare}>
-                <div className="settings-menu-item">
+              <>
+                <Menu.Item key="share" onClick={handleShare}>
                   <span>{polyglot.t("article_card.share_tooltip")}</span>
-                  <IconShareExternal />
-                </div>
-              </Menu.Item>
+                </Menu.Item>
+                <Divider style={{ margin: "4px 0" }} />
+              </>
             )}
-
-            <Menu.Item key="open-in-browser" onClick={handleOpenLinkExternally}>
-              <div className="settings-menu-item">
-                <span>{polyglot.t("article_card.open_link_externally_tooltip")}</span>
-                <IconLaunch />
-              </div>
-            </Menu.Item>
-
-            <Divider style={{ margin: "4px 0" }} />
 
             <Menu.Item key="title-alignment">
               <div className="settings-menu-item">
