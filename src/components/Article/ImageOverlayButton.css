@@ -30,12 +30,14 @@
   width: 100%;
 }
 
+.image-container:has(.link-tag) img {
+  margin-bottom: 0 !important;
+}
+
 .link-tag {
   cursor: pointer;
-  position: absolute;
+  position: relative;
   width: 100%;
-  margin-left: -50%;
-  margin-top: -34px;
   border-top-left-radius: unset;
   border-top-right-radius: unset;
   z-index: 1;

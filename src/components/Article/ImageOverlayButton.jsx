@@ -8,7 +8,7 @@ import { MIN_THUMBNAIL_SIZE } from "@/utils/constants"
 
 import "./ImageOverlayButton.css"
 
-const ImageComponent = ({ imgNode, isIcon, isBigImage, index, togglePhotoSlider }) => {
+const ImageComponent = ({ imgHref, imgNode, isIcon, isBigImage, index, togglePhotoSlider }) => {
   const { fontSize } = useStore(settingsState)
 
   return isIcon ? (
@@ -41,6 +41,20 @@ const ImageComponent = ({ imgNode, isIcon, isBigImage, index, togglePhotoSlider 
           togglePhotoSlider(index)
         }}
       />
+      {imgHref !== "#" && (
+        <Tooltip content={imgHref}>
+          <Tag
+            className="link-tag"
+            icon={<IconLink />}
+            onClick={(e) => {
+              e.stopPropagation()
+              window.open(imgHref, "_blank")
+            }}
+          >
+            {imgHref}
+          </Tag>
+        </Tooltip>
+      )}
     </div>
   )
 }
@@ -83,6 +97,7 @@ const ImageOverlayButton = ({ node, index, togglePhotoSlider, isLinkWrapper = fa
     return isLinkWrapper ? (
       <a {...node.attribs}>
         <ImageComponent
+          imgHref={node.attribs.href}
           imgNode={imgNode}
           index={index}
           isBigImage={isBigImage}
@@ -93,6 +108,7 @@ const ImageOverlayButton = ({ node, index, togglePhotoSlider, isLinkWrapper = fa
       </a>
     ) : (
       <ImageComponent
+        imgHref={"#"}
         imgNode={imgNode}
         index={index}
         isBigImage={isBigImage}
@@ -108,29 +124,17 @@ const ImageOverlayButton = ({ node, index, togglePhotoSlider, isLinkWrapper = fa
         {isLinkWrapper ? (
           <div>
             <ImageComponent
+              imgHref={node.attribs.href}
               imgNode={imgNode}
               index={index}
               isBigImage={isBigImage}
               isIcon={isIcon}
               togglePhotoSlider={togglePhotoSlider}
             />
-            {node.attribs.href !== "#" && (
-              <Tooltip content={node.attribs.href}>
-                <Tag
-                  className="link-tag"
-                  icon={<IconLink />}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    window.open(node.attribs.href, "_blank")
-                  }}
-                >
-                  {node.attribs.href}
-                </Tag>
-              </Tooltip>
-            )}
           </div>
         ) : (
           <ImageComponent
+            imgHref={"#"}
             imgNode={imgNode}
             index={index}
             isBigImage={isBigImage}
