@@ -69,7 +69,6 @@ const SearchAndSortBar = ({ info }) => {
     if (filterString !== currentFilterString) {
       setCurrentFilterString(filterString)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterString, isMount])
 
   return (
