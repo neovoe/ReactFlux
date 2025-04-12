@@ -88,7 +88,8 @@
     "fetch_original_tooltip": "Fetch original content",
     "save_to_third_party_services_tooltip": "Save to third-party services",
     "share_tooltip": "Share",
-    "open_link_tooltip": "Open link directly"
+    "open_link_tooltip": "Open link directly",
+    "view_comments_tooltip": "View comments"
   },
   "article_list": {
     "sort_direction_desc": "Newest first",

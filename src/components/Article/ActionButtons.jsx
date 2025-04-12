@@ -7,6 +7,7 @@ import {
   IconCheck,
   IconClose,
   IconCloudDownload,
+  IconMessage,
   IconMinusCircle,
   IconMoreVertical,
   IconRecord,
@@ -166,6 +167,8 @@ const ActionButtons = () => {
     }
   }
 
+  const handleViewComments = () => window.open(activeContent.comments_url, "_blank")
+
   const commonButtons = {
     status: (
       <CustomTooltip
@@ -270,6 +273,15 @@ const ActionButtons = () => {
             <Menu.Item key="open_link" onClick={() => window.open(activeContent.url, "_blank")}>
               <span>{polyglot.t("article_card.open_link_tooltip")}</span>
             </Menu.Item>
+
+            {activeContent.comments_url !== "" && (
+              <Menu.Item key="view-comments" onClick={handleViewComments}>
+                <div className="settings-menu-item">
+                  <span>{polyglot.t("article_card.view_comments_tooltip")}</span>
+                  <IconMessage />
+                </div>
+              </Menu.Item>
+            )}
 
             {navigator.share && (
               <>

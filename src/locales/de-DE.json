@@ -88,7 +88,8 @@
     "fetch_original_tooltip": "Originalinhalt herunterladen",
     "save_to_third_party_services_tooltip": "Bei Drittanbieter speichern",
     "share_tooltip": "Teilen",
-    "open_link_tooltip": "Link öffnen"
+    "open_link_tooltip": "Link öffnen",
+    "view_comments_tooltip": "Kommentare anzeigen"
   },
   "article_list": {
     "sort_direction_desc": "Neueste zuerst",
