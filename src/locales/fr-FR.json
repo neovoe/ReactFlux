@@ -95,6 +95,7 @@
     "sort_direction_desc": "Les plus récents en premier",
     "sort_direction_asc": "Les plus anciens en premier",
     "filter_status_all": "Tout",
+    "filter_status_starred": "Favoris",
     "filter_status_unread": "Non lus",
     "mark_all_as_read_success": "Tous les articles marqués comme lus",
     "mark_all_as_read_error": "Impossible de marquer tous les articles comme lus",
@@ -109,6 +110,9 @@
     "mark_as_read_error": "Impossible de marquer les articles en double comme lus"
   },
   "search": {
+    "search": "Rechercher",
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
     "placeholder": "Rechercher...",
     "clear_date": "Effacer",
     "select_date": "Sélectionner une date",
