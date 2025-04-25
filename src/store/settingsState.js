@@ -25,6 +25,7 @@ const defaultValue = {
   themeColor: "Orange",
   themeMode: "system",
   titleAlignment: "center",
+  updateContentOnFetch: false,
 }
 
 export const settingsState = persistentAtom("settings", defaultValue, {

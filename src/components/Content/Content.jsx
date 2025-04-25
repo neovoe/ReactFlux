@@ -17,7 +17,13 @@ import useKeyHandlers from "@/hooks/useKeyHandlers"
 import { polyglotState } from "@/hooks/useLanguage"
 import useScreenWidth from "@/hooks/useScreenWidth"
 import Article from "@/pages/Article"
-import { contentState, setActiveContent, setInfoFrom, setOffset } from "@/store/contentState"
+import {
+  contentState,
+  setActiveContent,
+  setInfoFrom,
+  setInfoId,
+  setOffset,
+} from "@/store/contentState"
 import { dataState } from "@/store/dataState"
 import { duplicateHotkeysState, hotkeysState } from "@/store/hotkeysState"
 import { settingsState } from "@/store/settingsState"
@@ -134,6 +140,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       return
     }
     setInfoFrom(contactInfo)
+    setInfoId(info.id)
     if (activeContent) {
       setActiveContent(null)
       return

@@ -223,7 +223,13 @@
     "mark_read_by_label": "Mark articles as read by",
     "mark_read_by_description": "Choose how articles are marked as read:",
     "mark_read_manually": "Manually",
-    "mark_read_on_view": "View"
+    "mark_read_on_view": "View",
+    "enable_swipe_gesture_description": "Enable swipe gesture to switch articles",
+    "enable_swipe_gesture_label": "Enable swipe gesture",
+    "swipe_sensitivity_description": "Adjust the sensitivity of swipe gestures",
+    "swipe_sensitivity_label": "Swipe sensitivity",
+    "update_content_on_fetch_label": "Auto-save fetched content",
+    "update_content_on_fetch_description": "Automatically update and save fetched content to database"
   },
   "appearance": {
     "theme_color_label": "Theme color",

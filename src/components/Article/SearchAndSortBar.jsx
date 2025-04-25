@@ -23,7 +23,13 @@ import SidebarTrigger from "./SidebarTrigger.jsx"
 import CustomTooltip from "@/components/ui/CustomTooltip"
 import { polyglotState } from "@/hooks/useLanguage"
 import useScreenWidth from "@/hooks/useScreenWidth"
-import { contentState, setFilterDate, setFilterString, setFilterType } from "@/store/contentState"
+import {
+  contentState,
+  dynamicCountState,
+  setFilterDate,
+  setFilterString,
+  setFilterType,
+} from "@/store/contentState"
 import { categoriesState, feedsState } from "@/store/dataState"
 import { settingsState, updateSettings } from "@/store/settingsState"
 import { getStartOfToday } from "@/utils/date"
@@ -135,11 +141,12 @@ const ActiveButton = ({ active, icon, tooltip, onClick }) => (
 )
 
 const SearchAndSortBar = (info) => {
-  const { filterDate, filterString, infoFrom, isArticleListReady, total } = useStore(contentState)
+  const { filterDate, filterString, infoFrom, isArticleListReady } = useStore(contentState)
   const { orderDirection, showStatus } = useStore(settingsState)
   const { polyglot } = useStore(polyglotState)
   const feeds = useStore(feedsState)
   const categories = useStore(categoriesState)
+  const dynamicCount = useStore(dynamicCountState)
 
   const location = useLocation()
   const { id } = useParams()
@@ -153,24 +160,24 @@ const SearchAndSortBar = (info) => {
     if (id) {
       if (infoFrom === "category") {
         const category = categories.find((c) => c.id === Number(id))
-        return { title: category?.title, count: total }
+        return { title: category?.title, count: dynamicCount }
       }
       if (infoFrom === "feed") {
         const feed = feeds.find((f) => f.id === Number(id))
-        return { title: feed?.title, count: total }
+        return { title: feed?.title, count: dynamicCount }
       }
     }
 
     const infoMap = {
-      all: { key: "sidebar.all", count: total },
-      today: { key: "sidebar.today", count: total },
-      starred: { key: "sidebar.starred", count: total },
-      history: { key: "sidebar.history", count: total },
+      all: { key: "sidebar.all", count: dynamicCount },
+      today: { key: "sidebar.today", count: dynamicCount },
+      starred: { key: "sidebar.starred", count: dynamicCount },
+      history: { key: "sidebar.history", count: dynamicCount },
     }
 
     const info = infoMap[infoFrom] || { key: "", count: 0 }
     return { title: info.key ? polyglot.t(info.key) : "", count: info.count }
-  }, [infoFrom, id, categories, feeds, total, polyglot])
+  }, [infoFrom, id, categories, feeds, dynamicCount, polyglot])
 
   const toggleOrderDirection = () => {
     const newOrderDirection = orderDirection === "desc" ? "asc" : "desc"
@@ -210,9 +217,9 @@ const SearchAndSortBar = (info) => {
   return (
     <div className="search-and-sort-bar" style={{ width: isBelowMedium ? "100%" : 370 }}>
       <SidebarTrigger />
-      {title && (
-        <div className="page-info">
-          <div className="title-container">
+      <div className="page-info">
+        <div className="title-container">
+          {title ? (
             <Typography.Ellipsis
               expandable={false}
               showTooltip={!isBelowMedium}
@@ -220,12 +227,14 @@ const SearchAndSortBar = (info) => {
             >
               {title}
             </Typography.Ellipsis>
-          </div>
-          {isArticleListReady && count > 0 && (
-            <Typography.Text className="count-label">({count})</Typography.Text>
+          ) : (
+            <div className="placeholder-title"></div>
           )}
         </div>
-      )}
+        {isArticleListReady && count > 0 && (
+          <Typography.Text className="count-label">({count})</Typography.Text>
+        )}
+      </div>
       <div className="button-group">
         <ActiveButton
           active={!!filterString}

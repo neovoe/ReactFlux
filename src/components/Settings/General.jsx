@@ -5,6 +5,8 @@ import SettingItem from "./SettingItem"
 
 import { polyglotState } from "@/hooks/useLanguage"
 import { settingsState, updateSettings } from "@/store/settingsState"
+import { dataState } from "@/store/dataState"
+import compareVersions from "@/utils/version"
 
 const languageOptions = [
   { label: "Deutsch", value: "de-DE" },
@@ -15,8 +17,19 @@ const languageOptions = [
 ]
 
 const General = () => {
-  const { homePage, language, markReadBy, markReadOnScroll, orderBy, pageSize, removeDuplicates } =
-    useStore(settingsState)
+  const { version } = useStore(dataState)
+  const {
+    enableSwipeGesture,
+    homePage,
+    language,
+    markReadBy,
+    markReadOnScroll,
+    orderBy,
+    pageSize,
+    removeDuplicates,
+    swipeSensitivity,
+    updateContentOnFetch,
+  } = useStore(settingsState)
   const { polyglot } = useStore(polyglotState)
 
   const homePageOptions = [
@@ -178,6 +191,22 @@ const General = () => {
           onChange={(value) => updateSettings({ markReadOnScroll: value })}
         />
       </SettingItem>
+
+      {compareVersions(version, "2.2.8") >= 0 && (
+        <>
+          <Divider />
+
+          <SettingItem
+            description={polyglot.t("settings.update_content_on_fetch_description")}
+            title={polyglot.t("settings.update_content_on_fetch_label")}
+          >
+            <Switch
+              checked={updateContentOnFetch}
+              onChange={(value) => updateSettings({ updateContentOnFetch: value })}
+            />
+          </SettingItem>
+        </>
+      )}
     </>
   )
 }
