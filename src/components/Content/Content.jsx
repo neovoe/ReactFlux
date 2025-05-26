@@ -1,7 +1,6 @@
 import { Button, Notification } from "@arco-design/web-react"
 import { useStore } from "@nanostores/react"
 import { useEffect, useRef } from "react"
-import { useHotkeys } from "react-hotkeys-hook"
 import { Outlet, useParams } from "react-router"
 
 import FooterPanel from "./FooterPanel"
@@ -11,21 +10,15 @@ import SearchAndSortBar from "@/components/Article/SearchAndSortBar"
 import useAppData from "@/hooks/useAppData"
 import useArticleList from "@/hooks/useArticleList"
 import useContentContext from "@/hooks/useContentContext"
+import useContentHotkeys from "@/hooks/useContentHotkeys"
 import useDocumentTitle from "@/hooks/useDocumentTitle"
-import useEntryActions from "@/hooks/useEntryActions"
 import useKeyHandlers from "@/hooks/useKeyHandlers"
 import { polyglotState } from "@/hooks/useLanguage"
 import useScreenWidth from "@/hooks/useScreenWidth"
 import Article from "@/pages/Article"
-import {
-  contentState,
-  setActiveContent,
-  setInfoFrom,
-  setInfoId,
-  setOffset,
-} from "@/store/contentState"
+import { contentState, setActiveContent, setInfoFrom, setInfoId } from "@/store/contentState"
 import { dataState } from "@/store/dataState"
-import { duplicateHotkeysState, hotkeysState } from "@/store/hotkeysState"
+import { duplicateHotkeysState } from "@/store/hotkeysState"
 import { settingsState } from "@/store/settingsState"
 
 import "./Content.css"
@@ -37,69 +30,32 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   const { orderBy, orderDirection, showStatus } = useStore(settingsState)
   const { polyglot } = useStore(polyglotState)
   const duplicateHotkeys = useStore(duplicateHotkeysState)
-  const hotkeys = useStore(hotkeysState)
+
   const cardsRef = useRef(null)
 
   useDocumentTitle()
 
   const { entryListRef, handleEntryClick, handleEntryActive } = useContentContext()
 
-  const {
-    navigateToSelectedCard,
-    exitDetailView,
-    fetchOriginalArticle,
-    navigateToNextArticle,
-    navigateToNextUnreadArticle,
-    navigateToPreviousArticle,
-    navigateToPreviousUnreadArticle,
-    openLinkExternally,
-    openPhotoSlider,
-    saveToThirdPartyServices,
-    showHotkeysSettings,
-    toggleReadStatus,
-    toggleStarStatus,
-  } = useKeyHandlers()
+  const { showHotkeysSettings } = useKeyHandlers()
 
   const { fetchAppData } = useAppData()
   const { fetchArticleList } = useArticleList(info, getEntries)
   const { isBelowMedium } = useScreenWidth()
 
-  const {
-    handleFetchContent,
-    handleSaveToThirdPartyServices,
-    handleToggleStarred,
-    handleToggleStatus,
-  } = useEntryActions()
-
-  const hotkeyActions = {
-    exitDetailView,
-    fetchOriginalArticle: () => fetchOriginalArticle(handleFetchContent),
-    navigateToNextArticle: () => navigateToNextArticle(),
-    navigateToNextUnreadArticle: () => navigateToNextUnreadArticle(),
-    navigateToPreviousArticle: () => navigateToPreviousArticle(),
-    navigateToPreviousUnreadArticle: () => navigateToPreviousUnreadArticle(),
-    openLinkExternally,
-    openPhotoSlider,
-    saveToThirdPartyServices: () => saveToThirdPartyServices(handleSaveToThirdPartyServices),
-    showHotkeysSettings,
-    toggleReadStatus: () => toggleReadStatus(() => handleToggleStatus(activeContent)),
-    toggleStarStatus: () => toggleStarStatus(() => handleToggleStarred(activeContent)),
-  }
-
-  const removeConflictingKeys = (keys) => keys.filter((key) => !duplicateHotkeys.includes(key))
-
-  for (const [key, action] of Object.entries(hotkeyActions)) {
-    useHotkeys(removeConflictingKeys(hotkeys[key]), action)
-  }
-
   const refreshArticleList = async (getEntries) => {
-    setOffset(0)
     if (!isAppDataReady) {
       await fetchAppData()
     } else {
       await fetchArticleList(getEntries)
     }
   }
+
+  const handleRefreshArticleList = () => {
+    refreshArticleList(getEntries)
+  }
+
+  useContentHotkeys({ handleRefreshArticleList })
 
   useEffect(() => {
     if (duplicateHotkeys.length > 0) {
@@ -135,7 +91,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   }, [duplicateHotkeys, polyglot, showHotkeysSettings])
 
   useEffect(() => {
-    const contactInfo = info.id ? info.from + "/" + info.id : info.from
+    const contactInfo = info.id ? `${info.from}/${info.id}` : info.from
     if (articleId || contactInfo === infoFrom) {
       return
     }

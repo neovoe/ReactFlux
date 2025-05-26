@@ -1,7 +1,7 @@
 import { Form, Input, Message, Modal, Select, Switch } from "@arco-design/web-react"
 import { useStore } from "@nanostores/react"
-import { useState } from "react"
-import { Outlet, useNavigate } from "react-router"
+import { useEffect, useState } from "react"
+import { Outlet, useLocation, useNavigate } from "react-router"
 
 import { addFeed } from "@/apis"
 import { ContextProvider } from "@/components/Content/ContentContext"
@@ -10,6 +10,7 @@ import FeedManageTabs from "@/components/Sidebar/FeedManageTabs"
 import useAppData from "@/hooks/useAppData"
 import { polyglotState } from "@/hooks/useLanguage"
 import useModalToggle from "@/hooks/useModalToggle"
+import useScreenWidth from "@/hooks/useScreenWidth"
 import { categoriesState, feedsState } from "@/store/dataState"
 import { includesIgnoreCase } from "@/utils/filter"
 import "./Main.css"
@@ -19,12 +20,21 @@ const categoryRule = [{ required: true }]
 const crawlerRule = [{ type: "boolean" }]
 
 const SettingsModal = () => {
+  const location = useLocation()
+
+  const { isBelowMedium } = useScreenWidth()
   const {
     setSettingsModalVisible,
     setSettingsTabsActiveTab,
     settingsModalVisible,
     settingsTabsActiveTab,
   } = useModalToggle()
+
+  useEffect(() => {
+    if (isBelowMedium && settingsModalVisible) {
+      setSettingsModalVisible(false)
+    }
+  }, [location.pathname])
 
   return (
     <Modal
@@ -84,7 +94,7 @@ const AddFeedModal = () => {
   const [feedModalLoading, setFeedModalLoading] = useState(false)
   const [feedForm] = Form.useForm()
 
-  const { fetchAppData } = useAppData()
+  const { fetchFeedRelatedData } = useAppData()
   const { addFeedModalVisible, setAddFeedModalVisible } = useModalToggle()
 
   const navigate = useNavigate()
@@ -102,7 +112,7 @@ const AddFeedModal = () => {
       const response = await addFeed(url, categoryId, isFullText)
       Message.loading({ id, duration: 0, content: polyglot.t("main.add_feed_loading") })
 
-      fetchAppData()
+      fetchFeedRelatedData()
         .then(() => {
           Message.success({ id, content: polyglot.t("main.add_feed_success") })
           setAddFeedModalVisible(false)
@@ -111,7 +121,7 @@ const AddFeedModal = () => {
           return null
         })
         .catch((error) => {
-          console.error("Failed to fetch app data: ", error)
+          console.error("Failed to fetch feed related data: ", error)
           Message.error({ id, content: polyglot.t("main.add_feed_error") })
         })
     } catch (error) {
