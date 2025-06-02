@@ -29,7 +29,7 @@ export const ContextProvider = ({ children }) => {
 
       // 获取当前路径并去掉 article 部分
       const basePath = window.location.pathname.split("/article/")[0]
-      navigate(basePath + `/article/${entry.id}`)
+      navigate(`${basePath}/article/${entry.id}`)
     },
     [polyglot, handleEntryStatusUpdate],
   )

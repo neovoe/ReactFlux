@@ -3,7 +3,7 @@ import { IconCopy } from "@arco-design/web-react/icon"
 import { useStore } from "@nanostores/react"
 import hljs from "highlight.js"
 import { useCallback, useEffect, useState } from "react"
-import { idea, dracula } from "react-syntax-highlighter/dist/esm/styles/hljs"
+import { dracula, idea } from "react-syntax-highlighter/dist/esm/styles/hljs"
 
 import CustomTooltip from "@/components/ui/CustomTooltip"
 import { polyglotState } from "@/hooks/useLanguage"

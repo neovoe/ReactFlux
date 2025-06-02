@@ -4,8 +4,8 @@ import { useStore } from "@nanostores/react"
 import SettingItem from "./SettingItem"
 
 import { polyglotState } from "@/hooks/useLanguage"
-import { settingsState, updateSettings } from "@/store/settingsState"
 import { dataState } from "@/store/dataState"
+import { settingsState, updateSettings } from "@/store/settingsState"
 import compareVersions from "@/utils/version"
 
 const languageOptions = [

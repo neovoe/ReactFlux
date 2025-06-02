@@ -44,7 +44,7 @@ const SearchModal = memo(({ info, initialValue, visible, onCancel, onConfirm }) 
   const [inputValue, setInputValue] = useState(initialValue)
 
   useEffect(() => {
-    const contactInfo = info.id ? info.from + "/" + info.id : info.from
+    const contactInfo = info.id ? `${info.from}/${info.id}` : info.from
     if (contactInfo !== infoFrom && visible) {
       setInputValue(initialValue)
     }

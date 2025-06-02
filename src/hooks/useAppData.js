@@ -38,7 +38,7 @@ const useAppData = () => {
 
   const fetchUnreadToday = useCallback(async () => {
     try {
-      const unreadTodayData = await getTodayEntries(0, "unread")
+      const unreadTodayData = await getTodayEntries("unread")
       setUnreadTodayCount(unreadTodayData.total ?? 0)
       return unreadTodayData
     } catch (error) {

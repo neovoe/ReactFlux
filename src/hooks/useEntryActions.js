@@ -144,9 +144,9 @@ const useEntryActions = () => {
     }
   }
 
-  const handleSaveToThirdPartyServices = async () => {
+  const handleSaveToThirdPartyServices = async (entry) => {
     try {
-      const response = await saveToThirdPartyServices(activeContent.id)
+      const response = await saveToThirdPartyServices(entry.id)
       if (response.status === 202) {
         Notification.success({
           title: polyglot.t("actions.saved_to_third-party_services_success"),

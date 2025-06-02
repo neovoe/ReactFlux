@@ -2,7 +2,7 @@ import { Divider, Tag, Typography } from "@arco-design/web-react"
 import { useStore } from "@nanostores/react"
 import ReactHtmlParser from "html-react-parser"
 import { littlefoot } from "littlefoot"
-import React, { forwardRef, useEffect } from "react"
+import React, { forwardRef, useEffect, useRef } from "react"
 import { PhotoSlider } from "react-photo-view"
 import { useNavigate } from "react-router"
 import "react-photo-view/dist/react-photo-view.css"
@@ -132,6 +132,29 @@ const handleContentTable = (node) => {
   return node
 }
 
+// Helper function to process figcaption content
+const processFigcaptionContent = (children) => {
+  if (!children) {
+    return null
+  }
+
+  return children.map((child, index) => {
+    if (child.type === "text") {
+      return child.data
+    }
+    if (child.type === "tag") {
+      const Tag = child.name
+      const props = child.attribs || {}
+      return (
+        <Tag key={index} {...props}>
+          {child.children ? processFigcaptionContent(child.children) : null}
+        </Tag>
+      )
+    }
+    return null
+  })
+}
+
 const handleFigure = (node, imageSources, togglePhotoSlider) => {
   const firstChild = node.children[0]
   const hasImages = node.children.some((child) => child.name === "img")
@@ -148,7 +171,7 @@ const handleFigure = (node, imageSources, togglePhotoSlider) => {
     return codeContent ? <CodeBlock>{codeContent}</CodeBlock> : null
   }
 
-  // Handle multiple images in figure
+  // Handle multiple images in figure with figcaption support
   if (hasImages) {
     return (
       <figure>
@@ -159,23 +182,15 @@ const handleFigure = (node, imageSources, togglePhotoSlider) => {
                 {handleImage(child, imageSources, togglePhotoSlider)}
               </div>
             )
-          } else if (child.name === "figcaption") {
+          }
+          if (child.name === "figcaption") {
             return (
-              <figcaption key={`figure-child-${index}`}>
-                {child.type === "text"
-                  ? child.data
-                  : ReactHtmlParser(child.children.map((c) => c.data).join(""))}
+              <figcaption key={`figure-caption-${index}`}>
+                {processFigcaptionContent(child.children)}
               </figcaption>
             )
-          } else if (child.type === "tag" || child.type === "text") {
-            return (
-              <React.Fragment key={`figure-child-${index}`}>
-                {child.type === "text"
-                  ? child.data
-                  : ReactHtmlParser(child.children.map((c) => c.data).join(""))}
-              </React.Fragment>
-            )
           }
+          return null
         })}
       </figure>
     )
@@ -254,9 +269,11 @@ const getHtmlParserOptions = (imageSources, togglePhotoSlider) => ({
 const ArticleDetail = forwardRef((_, ref) => {
   const navigate = useNavigate()
   const { isBelowMedium } = useScreenWidth()
+
   const { activeContent } = useStore(contentState)
   const { articleWidth, edgeToEdgeImages, fontFamily, fontSize, titleAlignment } =
     useStore(settingsState)
+  const scrollContainerRef = useRef(null)
 
   const { isPhotoSliderVisible, setIsPhotoSliderVisible, selectedIndex, setSelectedIndex } =
     usePhotoSlider()
@@ -264,7 +281,6 @@ const ArticleDetail = forwardRef((_, ref) => {
   const handleAuthorFilter = () => {
     setFilterType("author")
     setFilterString(activeContent.author)
-    console.log(isBelowMedium)
     if (isBelowMedium) {
       setActiveContent(null)
     }
@@ -295,6 +311,14 @@ const ArticleDetail = forwardRef((_, ref) => {
   useEffect(() => {
     littlefoot()
   }, [])
+
+  // Focus the scrollable area when activeContent changes
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      const scrollElement = scrollContainerRef.current.getScrollElement()
+      scrollElement?.focus()
+    }
+  }, [activeContent.id])
 
   return (
     <div className="article-scroll-container">
