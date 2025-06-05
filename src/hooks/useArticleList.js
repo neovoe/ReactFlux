@@ -89,7 +89,7 @@ const useArticleList = (info, getEntries) => {
           case "all": {
             const responses = await Promise.all([
               getCounters(),
-              getTodayEntries(0, "unread"),
+              getTodayEntries("unread"),
               getFeeds(),
               getCategories(),
             ])
