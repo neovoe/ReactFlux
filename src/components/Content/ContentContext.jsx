@@ -45,7 +45,7 @@ export const ContextProvider = ({ children }) => {
 
       if (!isClickEntry) {
         setTimeout(() => {
-          if (entryListRef.current) {
+          if (entryListRef.current?.el) {
             const selectedCard = entryListRef.current.el.querySelector(".card-wrapper.selected")
             if (selectedCard) {
               selectedCard.scrollIntoView({
