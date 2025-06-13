@@ -19,7 +19,6 @@ const languageOptions = [
 const General = () => {
   const { version } = useStore(dataState)
   const {
-    enableContextMenu,
     enableSwipeGesture,
     homePage,
     language,
@@ -190,18 +189,6 @@ const General = () => {
         <Switch
           checked={markReadOnScroll}
           onChange={(value) => updateSettings({ markReadOnScroll: value })}
-        />
-      </SettingItem>
-
-      <Divider />
-
-      <SettingItem
-        description={polyglot.t("settings.enable_context_menu_description")}
-        title={polyglot.t("settings.enable_context_menu_label")}
-      >
-        <Switch
-          checked={enableContextMenu}
-          onChange={(value) => updateSettings({ enableContextMenu: value })}
         />
       </SettingItem>
 
