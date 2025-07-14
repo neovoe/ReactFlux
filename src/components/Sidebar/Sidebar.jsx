@@ -47,6 +47,7 @@ import {
   filteredCategoriesState,
   unreadTotalState,
 } from "@/store/dataState"
+import { expandedCategoriesState, setExpandedCategories } from "@/store/sidebarState"
 import { settingsState, updateSettings } from "@/store/settingsState"
 
 import "./Sidebar.css"
@@ -432,6 +433,7 @@ const Sidebar = () => {
   const { homePage } = useStore(settingsState)
   const { isCoreDataReady } = useStore(dataState)
   const { polyglot } = useStore(polyglotState)
+  const expandedCategories = useStore(expandedCategoriesState)
 
   const [selectedKeys, setSelectedKeys] = useState([`/${homePage}`])
 
@@ -478,7 +480,12 @@ const Sidebar = () => {
           </div>
           <Skeleton animation={true} loading={!isCoreDataReady} text={{ rows: 6 }} />
           {isCoreDataReady && (
-            <Collapse bordered={false} triggerRegion="icon">
+            <Collapse
+              activeKey={expandedCategories}
+              bordered={false}
+              onChange={(_key, keys) => setExpandedCategories(keys)}
+              triggerRegion="icon"
+            >
               <CategoryGroup />
             </Collapse>
           )}
