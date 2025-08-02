@@ -21,7 +21,7 @@
     "canvas-confetti": "^1.9.3",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.13",
-    "framer-motion": "^12.23.9",
+    "framer-motion": "^12.23.12",
     "highlight.js": "^11.11.1",
     "hls.js": "^1.6.7",
     "html-react-parser": "^5.2.6",
@@ -43,14 +43,14 @@
     "virtua": "^0.41.5"
   },
   "devDependencies": {
-    "@eslint/js": "^9.31.0",
+    "@eslint/js": "^9.32.0",
     "@types/node": "^24.1.0",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",
     "@vitejs/plugin-react": "^4.7.0",
     "babel-plugin-react-compiler": "19.1.0-rc.2",
     "depcheck": "^1.4.7",
-    "eslint": "^9.31.0",
+    "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import-x": "^4.16.1",
     "eslint-plugin-promise": "^7.2.1",
@@ -63,9 +63,9 @@
     "prettier": "^3.6.2",
     "react-compiler-runtime": "19.1.0-rc.2",
     "rollup-plugin-visualizer": "^6.0.3",
-    "simple-git-hooks": "2.13.0",
+    "simple-git-hooks": "2.13.1",
     "vite": "^7.0.6",
-    "vite-plugin-pwa": "^1.0.1",
+    "vite-plugin-pwa": "^1.0.2",
     "workbox-window": "^7.3.0"
   },
   "simple-git-hooks": {

@@ -43,7 +43,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   const { fetchArticleList } = useArticleList(info, getEntries)
   const { isBelowMedium } = useScreenWidth()
 
-  const refreshArticleListOnChange = async () => {
+  const fetchArticleListOnly = async () => {
     if (!isAppDataReady) {
       await fetchAppData()
     } else {
@@ -51,7 +51,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     }
   }
 
-  const handleManualRefresh = async () => {
+  const fetchArticleListWithRelatedData = async () => {
     if (!isAppDataReady) {
       await fetchAppData()
     } else {
@@ -59,7 +59,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     }
   }
 
-  useContentHotkeys({ handleRefreshArticleList: handleManualRefresh })
+  useContentHotkeys({ handleRefreshArticleList: fetchArticleListWithRelatedData })
 
   useEffect(() => {
     if (duplicateHotkeys.length > 0) {
@@ -105,18 +105,22 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       setActiveContent(null)
       return
     }
-    refreshArticleListOnChange()
+    if (info.from === "category") {
+      fetchArticleListWithRelatedData()
+    } else {
+      fetchArticleListOnly()
+    }
   }, [info])
 
   useEffect(() => {
     if (["starred", "history"].includes(info.from) || articleId) {
       return
     }
-    refreshArticleListOnChange()
+    fetchArticleListOnly()
   }, [orderBy])
 
   useEffect(() => {
-    refreshArticleListOnChange()
+    fetchArticleListOnly()
   }, [filterDate, orderDirection, showStatus])
 
   useEffect(() => {
@@ -158,7 +162,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
         <FooterPanel
           info={info}
           markAllAsRead={markAllAsRead}
-          refreshArticleList={handleManualRefresh}
+          refreshArticleList={fetchArticleListWithRelatedData}
         />
       </div>
       <Article>
