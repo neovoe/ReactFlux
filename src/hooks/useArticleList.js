@@ -1,7 +1,6 @@
 import { useStore } from "@nanostores/react"
 import { useEffect, useRef } from "react"
 
-import { getCategories, getCounters, getFeeds, getTodayEntries } from "@/apis/index"
 import {
   contentState,
   setEntries,
@@ -11,8 +10,6 @@ import {
 } from "@/store/contentState"
 import {
   dataState,
-  setCategoriesData,
-  setFeedsData,
   setHistoryCount,
   setStarredCount,
   setUnreadInfo,
@@ -86,26 +83,6 @@ const useArticleList = (info, getEntries) => {
               setUnreadTodayCount(response.total)
             }
             break
-          case "all": {
-            const responses = await Promise.all([
-              getCounters(),
-              getTodayEntries("unread"),
-              getFeeds(),
-              getCategories(),
-            ])
-
-            const [countersData, unreadTodayData, feedsData, categoriesData] = responses
-
-            const unreadInfo = feedsData.reduce((acc, feed) => {
-              acc[feed.id] = countersData.unreads[feed.id] ?? 0
-              return acc
-            }, {})
-            setUnreadInfo(unreadInfo)
-            setUnreadTodayCount(unreadTodayData.total ?? 0)
-            setFeedsData(feedsData)
-            setCategoriesData(categoriesData)
-            break
-          }
         }
       }
 
