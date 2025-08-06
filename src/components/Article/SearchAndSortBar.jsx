@@ -45,7 +45,7 @@ const SearchModal = memo(({ info, initialValue, visible, onCancel, onConfirm }) 
 
   useEffect(() => {
     const contactInfo = info.id ? `${info.from}/${info.id}` : info.from
-    if (contactInfo !== infoFrom && visible) {
+    if (contactInfo !== infoFrom) {
       setInputValue(initialValue)
     }
   }, [initialValue, visible])
@@ -140,7 +140,7 @@ const ActiveButton = ({ active, icon, tooltip, onClick }) => (
   </CustomTooltip>
 )
 
-const SearchAndSortBar = (info) => {
+const SearchAndSortBar = ({ info }) => {
   const { filterDate, filterString, infoFrom, isArticleListReady } = useStore(contentState)
   const { orderDirection, showStatus } = useStore(settingsState)
   const { polyglot } = useStore(polyglotState)
@@ -209,10 +209,13 @@ const SearchAndSortBar = (info) => {
   }
 
   useEffect(() => {
-    setFilterDate(null)
-    setFilterType("title")
-    setFilterString("")
-  }, [location.pathname, showStatus])
+    const contactInfo = info.id ? `${info.from}/${info.id}` : info.from
+    if (contactInfo !== infoFrom) {
+      setFilterDate(null)
+      setFilterType("title")
+      setFilterString("")
+    }
+  }, [info, infoFrom, location.pathname, showStatus])
 
   return (
     <div className="search-and-sort-bar" style={{ width: isBelowMedium ? "100%" : 370 }}>
