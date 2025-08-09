@@ -90,12 +90,16 @@ const CategoryTitle = ({
 
   const canDelete = !feedsGroupedById[category.id] || feedsGroupedById[category.id].length === 0
 
+  // 新增：手机端菜单可见性（桌面端仍用右键）
+  const [menuVisible, setMenuVisible] = useState(false)
+
   return (
     <Dropdown
-      position="bl"
-      trigger="contextMenu"
+      popupVisible={isBelowMedium ? menuVisible : undefined}
+      position={isBelowMedium ? "br" : "bl"}
+      trigger={isBelowMedium ? "click" : "contextMenu"}
       droplist={
-        <Menu>
+        <Menu onClickMenuItem={() => isBelowMedium && setMenuVisible(false)}>
           <MenuItem key="edit-category" onClick={() => onEditCategory(category)}>
             <div className="settings-menu-item">
               <span>{polyglot.t("sidebar.context_menu.edit_category")}</span>
@@ -133,6 +137,12 @@ const CategoryTitle = ({
           )}
         </Menu>
       }
+      onVisibleChange={(v) => {
+        if (!isBelowMedium) {
+          return
+        }
+        setMenuVisible(v)
+      }}
     >
       <div
         role="button"
@@ -143,6 +153,11 @@ const CategoryTitle = ({
           "submenu-inactive": path.split("/article")[0] !== `/category/${category.id}`,
         })}
         onClick={handleNavigation}
+        onContextMenu={(e) => {
+          if (isBelowMedium) {
+            e.preventDefault()
+          }
+        }}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             handleNavigation()
@@ -167,6 +182,19 @@ const CategoryTitle = ({
           >
             {unreadCount}
           </Typography.Ellipsis>
+        )}
+
+        {/* 手机端三点按钮（点击打开同一菜单） */}
+        {isBelowMedium && (
+          <Button
+            icon={<IconMoreVertical />}
+            shape="circle"
+            size="mini"
+            onClick={(e) => {
+              e.stopPropagation()
+              setMenuVisible(true)
+            }}
+          />
         )}
       </div>
     </Dropdown>
@@ -256,12 +284,15 @@ const FeedMenuItem = ({ feed, onEditFeed, onRefreshFeed, onMarkAllAsRead, onDele
   const location = useLocation()
   const isSelected = location.pathname.split("/article/")[0] === `/feed/${feed.id}`
 
+  const [menuVisible, setMenuVisible] = useState(false)
+
   return (
     <Dropdown
-      position="bl"
-      trigger="contextMenu"
+      popupVisible={isBelowMedium ? menuVisible : undefined}
+      position={isBelowMedium ? "br" : "bl"}
+      trigger={isBelowMedium ? "click" : "contextMenu"}
       droplist={
-        <Menu>
+        <Menu onClickMenuItem={() => isBelowMedium && setMenuVisible(false)}>
           <MenuItem key="edit-feed" onClick={() => onEditFeed(feed)}>
             <div className="settings-menu-item">
               <span>{polyglot.t("sidebar.context_menu.edit_feed")}</span>
@@ -305,6 +336,11 @@ const FeedMenuItem = ({ feed, onEditFeed, onRefreshFeed, onMarkAllAsRead, onDele
           navigate(`/feed/${feed.id}`)
           setActiveContent(null)
         }}
+        onContextMenu={(e) => {
+          if (isBelowMedium) {
+            e.preventDefault()
+          }
+        }}
       >
         <div className="custom-menu-item">
           <Typography.Ellipsis
@@ -323,6 +359,18 @@ const FeedMenuItem = ({ feed, onEditFeed, onRefreshFeed, onMarkAllAsRead, onDele
             <Typography.Ellipsis className="item-count" expandable={false}>
               {feed.unreadCount}
             </Typography.Ellipsis>
+          )}
+
+          {isBelowMedium && (
+            <Button
+              icon={<IconMoreVertical />}
+              shape="circle"
+              size="mini"
+              onClick={(e) => {
+                e.stopPropagation()
+                setMenuVisible(true)
+              }}
+            />
           )}
         </div>
       </MenuItem>
