@@ -1,7 +1,26 @@
-export const extractImageSources = (htmlString) => {
+export const extractImages = (htmlString) => {
   const doc = new DOMParser().parseFromString(htmlString, "text/html")
-  const images = doc.querySelectorAll("img")
-  return Array.from(images).map((img) => img.getAttribute("src"))
+  const images = Array.from(doc.querySelectorAll("img"))
+
+  return images.map((img) => {
+    const src = img.getAttribute("src") || ""
+
+    const alt = (img.getAttribute("alt") || "").trim()
+
+    const figure = img.closest("figure")
+    const figcaptionText = (figure?.querySelector("figcaption")?.textContent || "")
+      .replace(/\s+/g, " ")
+      .trim()
+
+    if (alt === figcaptionText) {
+      return { src, description: alt }
+    } else {
+      const parts = [`ALT: ${alt}`, figcaptionText].filter(Boolean)
+      const description = parts.join("\n---\n")
+
+      return { src, description }
+    }
+  })
 }
 
 const getWeiboFirstImage = (doc) => {

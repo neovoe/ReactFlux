@@ -5,11 +5,17 @@ import { littlefoot } from "littlefoot"
 import React, { forwardRef, useEffect, useRef } from "react"
 import { useNavigate } from "react-router"
 import Lightbox from "yet-another-react-lightbox"
+import Captions from "yet-another-react-lightbox/plugins/captions"
 import Counter from "yet-another-react-lightbox/plugins/counter"
+import Download from "yet-another-react-lightbox/plugins/download"
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen"
+import Share from "yet-another-react-lightbox/plugins/share"
+import Slideshow from "yet-another-react-lightbox/plugins/slideshow"
 import Zoom from "yet-another-react-lightbox/plugins/zoom"
 import "yet-another-react-lightbox/styles.css"
+import "yet-another-react-lightbox/plugins/captions.css"
 import "yet-another-react-lightbox/plugins/counter.css"
+import "yet-another-react-lightbox/plugins/thumbnails.css"
 
 import CodeBlock from "./CodeBlock"
 import ImageOverlayButton from "./ImageOverlayButton"
@@ -27,7 +33,7 @@ import {
 } from "@/store/contentState"
 import { settingsState } from "@/store/settingsState"
 import { generateReadableDate } from "@/utils/date"
-import { extractImageSources } from "@/utils/images"
+import { extractImages } from "@/utils/images"
 import "./ArticleDetail.css"
 import "./littlefoot.css"
 
@@ -35,7 +41,7 @@ const handleLinkWithImage = (node, imageSources, togglePhotoSlider) => {
   const imgNode = node.children.find((child) => child.type === "tag" && child.name === "img")
 
   if (imgNode) {
-    const index = imageSources.findIndex((src) => src === imgNode.attribs.src)
+    const index = imageSources.findIndex((item) => item.src === imgNode.attribs.src)
 
     return (
       <ImageOverlayButton
@@ -66,7 +72,7 @@ const handleImage = (node, imageSources, togglePhotoSlider) => {
     return bskyVideoPlayer
   }
 
-  const index = imageSources.findIndex((src) => src === node.attribs.src)
+  const index = imageSources.findIndex((item) => item.src === node.attribs.src)
   return <ImageOverlayButton index={index} node={node} togglePhotoSlider={togglePhotoSlider} />
 }
 
@@ -300,7 +306,7 @@ const ArticleDetail = forwardRef((_, ref) => {
     setIsPhotoSliderVisible((prev) => !prev)
   }
 
-  const imageSources = extractImageSources(activeContent.content)
+  const imageSources = extractImages(activeContent.content)
   const htmlParserOptions = getHtmlParserOptions(imageSources, togglePhotoSlider)
 
   const parsedHtml = ReactHtmlParser(activeContent.content, htmlParserOptions)
@@ -396,16 +402,26 @@ const ArticleDetail = forwardRef((_, ref) => {
             )}
             {parsedHtml}
             <Lightbox
+              animation={{ fade: 500, swipe: 500, navigation: 500 }}
               carousel={{ finite: true }}
               close={() => setIsPhotoSliderVisible(false)}
-              controller={{ closeOnBackdropClick: true }}
+              controller={{ closeOnPullDown: true, closeOnBackdropClick: true }}
               index={selectedIndex}
               open={isPhotoSliderVisible}
-              plugins={[Counter, Fullscreen, Zoom]}
-              slides={imageSources.map((item) => ({ src: item }))}
+              slides={imageSources}
+              captions={{
+                showToggle: true,
+                descriptionTextAlign: "center",
+                descriptionMaxLines: 5,
+              }}
               on={{
                 view: ({ index }) => setSelectedIndex(index),
               }}
+              plugins={
+                isBelowMedium
+                  ? [Captions, Fullscreen, Slideshow, Download, Share, Counter]
+                  : [Captions, Zoom, Slideshow, Download, Share, Counter]
+              }
             />
           </div>
         </FadeTransition>
