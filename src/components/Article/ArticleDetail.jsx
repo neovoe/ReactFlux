@@ -419,8 +419,19 @@ const ArticleDetail = forwardRef((_, ref) => {
               }}
               plugins={
                 isBelowMedium
-                  ? [Captions, Fullscreen, Slideshow, Download, Share, Counter]
+                  ? [Captions, Zoom, Fullscreen, Slideshow, Download, Share, Counter]
                   : [Captions, Zoom, Slideshow, Download, Share, Counter]
+              }
+              render={
+                isBelowMedium
+                  ? {
+                      // 隐藏 Zoom In / Zoom Out 按钮
+                      buttonZoom: () => null,
+                      // 若仅隐藏图标，也可以逐一返回 null
+                      iconZoomIn: () => null,
+                      iconZoomOut: () => null,
+                    }
+                  : {}
               }
             />
           </div>
