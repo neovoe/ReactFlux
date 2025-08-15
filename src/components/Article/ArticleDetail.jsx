@@ -403,7 +403,7 @@ const ArticleDetail = forwardRef((_, ref) => {
             {parsedHtml}
             <Lightbox
               animation={{ fade: 500, swipe: 500, navigation: 500 }}
-              carousel={{ finite: true }}
+              carousel={{ finite: true, padding: 0 }}
               close={() => setIsPhotoSliderVisible(false)}
               controller={{ closeOnPullDown: true, closeOnBackdropClick: true }}
               index={selectedIndex}
