@@ -221,8 +221,7 @@ p {
   display: block;
   overflow-x: scroll;
   word-break: normal;
-  font-feature-settings:
-    "calt", "ss01", "ss02", "ss03", "cv01", "cv02", "cv03", "cv04", "cv09", "cv10", "zero", "tnum";
+  font-feature-settings: "calt", "ss01", "ss02", "ss03", "cv10", "cv11", "tnum";
 }
 
 .article-body table tr th,

@@ -53,7 +53,7 @@ body {
 }
 
 body {
-  font-feature-settings: "calt", "ss01", "ss03";
+  font-feature-settings: "calt", "ss01", "ss03", "cv05", "cv08", "cv10", "cv11";
 }
 
 html,
