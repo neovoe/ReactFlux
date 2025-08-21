@@ -132,6 +132,9 @@ const AddFeedModal = () => {
     }
   }
 
+  const defaultCategoryId =
+    categories.find((c) => c.title?.trim().toLowerCase() === "all")?.id ?? undefined
+
   return (
     <Modal
       unmountOnExit
@@ -169,12 +172,12 @@ const AddFeedModal = () => {
         <Form.Item
           required
           field="category"
+          initialValue={defaultCategoryId}
           label={polyglot.t("main.add_feed_modal_category_label")}
           rules={categoryRule}
         >
           <Select
             showSearch
-            defaultValue={"All"}
             placeholder={polyglot.t("main.add_feed_modal_category_placeholder")}
             filterOption={(inputValue, option) =>
               includesIgnoreCase(option.props.children, inputValue)
