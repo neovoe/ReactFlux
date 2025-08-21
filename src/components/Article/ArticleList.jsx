@@ -69,7 +69,6 @@ const ArticleList = forwardRef(({ getEntries, handleEntryClick, cardsRef }, ref)
   )
 
   return (
-    // <SimpleBar ref={ref} className="entry-list" scrollableNodeProps={{ ref: cardsRef }}>
     <div ref={ref} className="entry-list" style={{ overflow: "auto" }}>
       <LoadingCards />
       {isArticleListReady && (

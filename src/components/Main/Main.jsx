@@ -174,7 +174,7 @@ const AddFeedModal = () => {
         >
           <Select
             showSearch
-            defaultValue={"all"}
+            defaultValue={"All"}
             placeholder={polyglot.t("main.add_feed_modal_category_placeholder")}
             filterOption={(inputValue, option) =>
               includesIgnoreCase(option.props.children, inputValue)

@@ -1,8 +1,10 @@
 import { Button, Notification, Typography } from "@arco-design/web-react"
-import { IconEmpty } from "@arco-design/web-react/icon"
+import { IconEmpty, IconLeft, IconRight } from "@arco-design/web-react/icon"
 import { useStore } from "@nanostores/react"
-import { useEffect, useRef } from "react"
+import { AnimatePresence } from "framer-motion"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { useLocation, useParams } from "react-router"
+import { useSwipeable } from "react-swipeable"
 
 import FooterPanel from "./FooterPanel"
 
@@ -11,6 +13,7 @@ import ActionButtons from "@/components/Article/ActionButtons"
 import ArticleDetail from "@/components/Article/ArticleDetail"
 import ArticleList from "@/components/Article/ArticleList"
 import SearchAndSortBar from "@/components/Article/SearchAndSortBar"
+import FadeTransition from "@/components/ui/FadeTransition"
 import useAppData from "@/hooks/useAppData"
 import useArticleList from "@/hooks/useArticleList"
 import useContentContext from "@/hooks/useContentContext"
@@ -35,10 +38,13 @@ import "./Content.css"
 const Content = ({ info, getEntries, markAllAsRead }) => {
   const { activeContent, entries, filterDate, isArticleLoading } = useStore(contentState)
   const { isAppDataReady } = useStore(dataState)
-  const { orderBy, orderDirection, showStatus } = useStore(settingsState)
+  const { enableSwipeGesture, orderBy, orderDirection, showStatus, swipeSensitivity } =
+    useStore(settingsState)
   const { polyglot } = useStore(polyglotState)
   const duplicateHotkeys = useStore(duplicateHotkeysState)
 
+  const [isSwipingLeft, setIsSwipingLeft] = useState(false)
+  const [isSwipingRight, setIsSwipingRight] = useState(false)
   const cardsRef = useRef(null)
 
   const location = useLocation()
@@ -48,7 +54,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
 
   const { entryDetailRef, entryListRef, handleEntryClick } = useContentContext()
 
-  const { showHotkeysSettings } = useKeyHandlers()
+  const { navigateToNextArticle, navigateToPreviousArticle, showHotkeysSettings } = useKeyHandlers()
 
   const { fetchAppData, fetchFeedRelatedData } = useAppData()
   const { fetchArticleList } = useArticleList(info, getEntries)
@@ -90,6 +96,38 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   }
 
   useContentHotkeys({ handleRefreshArticleList: fetchArticleListWithRelatedData })
+
+  const handleSwiping = (eventData) => {
+    setIsSwipingLeft(eventData.dir === "Left")
+    setIsSwipingRight(eventData.dir === "Right")
+  }
+
+  const handleSwiped = () => {
+    setIsSwipingLeft(false)
+    setIsSwipingRight(false)
+  }
+
+  const handleSwipeLeft = useCallback(() => navigateToNextArticle(), [navigateToNextArticle])
+
+  const handleSwipeRight = useCallback(
+    () => navigateToPreviousArticle(),
+    [navigateToPreviousArticle],
+  )
+
+  const handlers = useSwipeable({
+    delta: 50 / swipeSensitivity,
+    onSwiping: enableSwipeGesture
+      ? (eventData) => {
+          if (window.getSelection().toString()) {
+            return
+          }
+          handleSwiping(eventData)
+        }
+      : undefined,
+    onSwiped: enableSwipeGesture ? handleSwiped : undefined,
+    onSwipedLeft: enableSwipeGesture ? handleSwipeLeft : undefined,
+    onSwipedRight: enableSwipeGesture ? handleSwipeRight : undefined,
+  })
 
   useEffect(() => {
     if (duplicateHotkeys.length > 0) {
@@ -190,12 +228,24 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
         />
       </div>
       {activeContent ? (
-        <div className="article-container content-wrapper">
+        <div className="article-container content-wrapper" {...handlers}>
           {!isBelowMedium && <ActionButtons />}
           {isArticleLoading ? (
             <div style={{ flex: 1 }} />
           ) : (
             <>
+              <AnimatePresence>
+                {isSwipingRight && (
+                  <FadeTransition key="swipe-hint-left" className="swipe-hint left">
+                    <IconLeft style={{ fontSize: 24 }} />
+                  </FadeTransition>
+                )}
+                {isSwipingLeft && (
+                  <FadeTransition key="swipe-hint-right" className="swipe-hint right">
+                    <IconRight style={{ fontSize: 24 }} />
+                  </FadeTransition>
+                )}
+              </AnimatePresence>
               <ArticleDetail ref={entryDetailRef} />
             </>
           )}

@@ -329,6 +329,12 @@ const FeedMenuItem = ({ feed, onEditFeed, onRefreshFeed, onMarkAllAsRead, onDele
           </MenuItem>
         </Menu>
       }
+      onVisibleChange={(v) => {
+        if (!isBelowMedium) {
+          return
+        }
+        setMenuVisible(v)
+      }}
     >
       <MenuItem
         key={`/feed/${feed.id}`}

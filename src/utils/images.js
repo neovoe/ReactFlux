@@ -1,4 +1,4 @@
-export const extractImages = (htmlString) => {
+export const extractImageSources = (htmlString) => {
   const doc = new DOMParser().parseFromString(htmlString, "text/html")
   const images = Array.from(doc.querySelectorAll("img"))
 

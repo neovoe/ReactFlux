@@ -15,7 +15,7 @@ import {
   setActiveContent,
 } from "@/store/contentState"
 import { ANIMATION_DURATION_MS } from "@/utils/constants"
-import { extractImages } from "@/utils/images"
+import { extractImageSources } from "@/utils/images"
 
 const useKeyHandlers = () => {
   const { activeContent } = useStore(contentState)
@@ -145,7 +145,7 @@ const useKeyHandlers = () => {
       return
     }
 
-    const imageSources = extractImages(activeContent.content)
+    const imageSources = extractImageSources(activeContent.content)
     if (!imageSources.length) {
       return
     }

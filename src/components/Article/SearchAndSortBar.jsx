@@ -48,7 +48,7 @@ const SearchModal = memo(({ info, initialValue, visible, onCancel, onConfirm }) 
     if (contactInfo !== infoFrom) {
       setInputValue(initialValue)
     }
-  }, [initialValue, visible])
+  }, [info.from, info.id, infoFrom, initialValue, visible])
 
   const handleFilterTypeChange = (value) => {
     setFilterType(value)

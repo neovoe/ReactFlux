@@ -7,11 +7,13 @@ import {
   IconCheck,
   IconClose,
   IconCloudDownload,
+  IconLaunch,
   IconMessage,
   IconMinusCircle,
   IconMoreVertical,
   IconRecord,
   IconSave,
+  IconShareExternal,
   IconStar,
   IconStarFill,
 } from "@arco-design/web-react/icon"
@@ -36,35 +38,12 @@ import { settingsState, updateSettings } from "@/store/settingsState"
 import "./ActionButtons.css"
 
 const DesktopButtons = memo(
-  ({
-    commonButtons,
-    hasIntegrations,
-    prevContent,
-    nextContent,
-    navigateToPreviousArticle,
-    navigateToNextArticle,
-    handleSaveToThirdPartyServices,
-    polyglot,
-  }) => (
+  ({ commonButtons, hasIntegrations, handleSaveToThirdPartyServices, polyglot }) => (
     <>
       <div className="left-side">
         {commonButtons.close}
-        <CustomTooltip mini content={polyglot.t("article_card.previous_tooltip")}>
-          <Button
-            disabled={!prevContent}
-            icon={<IconArrowLeft />}
-            shape="circle"
-            onClick={navigateToPreviousArticle}
-          />
-        </CustomTooltip>
-        <CustomTooltip mini content={polyglot.t("article_card.next_tooltip")}>
-          <Button
-            disabled={!nextContent}
-            icon={<IconArrowRight />}
-            shape="circle"
-            onClick={navigateToNextArticle}
-          />
-        </CustomTooltip>
+        {commonButtons.prev}
+        {commonButtons.next}
       </div>
       <div className="right-side">
         {commonButtons.status}
@@ -104,8 +83,14 @@ const ActionButtons = () => {
   const { polyglot } = useStore(polyglotState)
   const headings = useStore(articleHeadingsState)
 
-  const { articleWidth, edgeToEdgeImages, fontSize, fontFamily, titleAlignment } =
-    useStore(settingsState)
+  const {
+    articleWidth,
+    edgeToEdgeImages,
+    enableSwipeGesture,
+    fontSize,
+    fontFamily,
+    titleAlignment,
+  } = useStore(settingsState)
 
   const nextContent = useStore(nextContentState)
   const prevContent = useStore(prevContentState)
@@ -119,6 +104,7 @@ const ActionButtons = () => {
     handleSaveToThirdPartyServices,
     handleToggleStarred,
     handleToggleStatus,
+    handleOpenLinkExternally,
   } = useEntryActions()
 
   const { exitDetailView, navigateToNextArticle, navigateToPreviousArticle } = useKeyHandlers()
@@ -181,6 +167,28 @@ const ActionButtons = () => {
   const handleViewComments = () => window.open(activeContent.comments_url, "_blank")
 
   const commonButtons = {
+    prev:
+      isBelowMedium && enableSwipeGesture ? undefined : (
+        <CustomTooltip mini content={polyglot.t("article_card.previous_tooltip")}>
+          <Button
+            disabled={!prevContent}
+            icon={<IconArrowLeft />}
+            shape="circle"
+            onClick={navigateToPreviousArticle}
+          />
+        </CustomTooltip>
+      ),
+    next:
+      isBelowMedium && enableSwipeGesture ? undefined : (
+        <CustomTooltip mini content={polyglot.t("article_card.next_tooltip")}>
+          <Button
+            disabled={!nextContent}
+            icon={<IconArrowRight />}
+            shape="circle"
+            onClick={navigateToNextArticle}
+          />
+        </CustomTooltip>
+      ),
     status: (
       <CustomTooltip
         mini
@@ -194,42 +202,6 @@ const ActionButtons = () => {
           icon={isUnread ? <IconMinusCircle /> : <IconRecord />}
           shape="circle"
           onClick={() => handleToggleStatus(activeContent)}
-        />
-      </CustomTooltip>
-    ),
-    star: (
-      <CustomTooltip
-        mini
-        content={
-          isStarred
-            ? polyglot.t("article_card.unstar_tooltip")
-            : polyglot.t("article_card.star_tooltip")
-        }
-      >
-        <Button
-          icon={isStarred ? <IconStarFill style={{ color: "#ffcd00" }} /> : <IconStar />}
-          shape="circle"
-          onClick={() => handleToggleStarred(activeContent)}
-        />
-      </CustomTooltip>
-    ),
-    prev: (
-      <CustomTooltip mini content={polyglot.t("article_card.previous_tooltip")}>
-        <Button
-          disabled={!prevContent}
-          icon={<IconArrowLeft />}
-          shape="circle"
-          onClick={navigateToPreviousArticle}
-        />
-      </CustomTooltip>
-    ),
-    next: (
-      <CustomTooltip mini content={polyglot.t("article_card.next_tooltip")}>
-        <Button
-          disabled={!nextContent}
-          icon={<IconArrowRight />}
-          shape="circle"
-          onClick={navigateToNextArticle}
         />
       </CustomTooltip>
     ),
@@ -298,9 +270,14 @@ const ActionButtons = () => {
               </Menu.Item>
             )}
 
-            <Menu.Item key="open_link" onClick={() => window.open(activeContent.url, "_blank")}>
-              <span>{polyglot.t("article_card.open_link_tooltip")}</span>
-            </Menu.Item>
+            {navigator.share && (
+              <Menu.Item key="share" onClick={handleShare}>
+                <div className="settings-menu-item">
+                  <span>{polyglot.t("article_card.share_tooltip")}</span>
+                  <IconShareExternal />
+                </div>
+              </Menu.Item>
+            )}
 
             {activeContent.comments_url !== "" && (
               <Menu.Item key="view-comments" onClick={handleViewComments}>
@@ -311,14 +288,17 @@ const ActionButtons = () => {
               </Menu.Item>
             )}
 
-            {navigator.share && (
-              <>
-                <Menu.Item key="share" onClick={handleShare}>
-                  <span>{polyglot.t("article_card.share_tooltip")}</span>
-                </Menu.Item>
-                <Divider style={{ margin: "4px 0" }} />
-              </>
-            )}
+            <Menu.Item
+              key="open-in-browser"
+              onClick={() => handleOpenLinkExternally(activeContent)}
+            >
+              <div className="settings-menu-item">
+                <span>{polyglot.t("article_card.open_link_externally_tooltip")}</span>
+                <IconLaunch />
+              </div>
+            </Menu.Item>
+
+            <Divider style={{ margin: "4px 0" }} />
 
             <Menu.Item key="title-alignment">
               <div className="settings-menu-item">

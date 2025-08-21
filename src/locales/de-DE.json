@@ -96,12 +96,12 @@
     "next_tooltip": "Nächster Artikel",
     "mark_as_read_tooltip": "Als gelesen markieren",
     "mark_as_unread_tooltip": "Als ungelesen markieren",
+    "open_link_externally_tooltip": "Quelllink in neuer Seite öffnen",
     "star_tooltip": "Lesezeichen hinzufügen",
     "unstar_tooltip": "Lesezeichen entfernen",
     "fetch_original_tooltip": "Originalinhalt herunterladen",
     "save_to_third_party_services_tooltip": "Bei Drittanbieter speichern",
     "share_tooltip": "Teilen",
-    "open_link_tooltip": "Link öffnen",
     "view_comments_tooltip": "Kommentare anzeigen"
   },
   "article_list": {
@@ -244,6 +244,8 @@
     "mark_read_by_description": "Artikel automatisch bei Auswahl oder nur manuell als gelesen markieren?",
     "mark_read_manually": "Manuell",
     "mark_read_on_view": "Beim Ansehen",
+    "enable_context_menu_label": "Kontextmenü aktivieren",
+    "enable_context_menu_description": "Rechtsklick-Kontextmenü auf Artikelkarten aktivieren",
     "enable_swipe_gesture_description": "Erlaubt Wischen nach links und rechts zum Navigieren zwischen Artikeln",
     "enable_swipe_gesture_label": "Wischgeste aktivieren",
     "swipe_sensitivity_description": "Empfindlichkeit der Wischgesten anpassen",

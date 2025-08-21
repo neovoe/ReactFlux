@@ -96,12 +96,12 @@
     "next_tooltip": "下一篇文章",
     "mark_as_read_tooltip": "标记为已读",
     "mark_as_unread_tooltip": "标记为未读",
+    "open_link_externally_tooltip": "在新页面打开源网页",
     "star_tooltip": "收藏",
     "unstar_tooltip": "取消收藏",
     "fetch_original_tooltip": "获取原文",
     "save_to_third_party_services_tooltip": "保存到第三方服务",
     "share_tooltip": "分享",
-    "open_link_tooltip": "直接打开链接",
     "view_comments_tooltip": "查看评论"
   },
   "article_list": {
@@ -244,6 +244,8 @@
     "mark_read_by_description": "选择标记文章为已读的方式：",
     "mark_read_manually": "手动",
     "mark_read_on_view": "查看时自动",
+    "enable_context_menu_label": "启用右键菜单",
+    "enable_context_menu_description": "在文章卡片上启用右键菜单功能",
     "enable_swipe_gesture_description": "启用左右滑动手势来切换文章",
     "enable_swipe_gesture_label": "启用滑动手势",
     "swipe_sensitivity_description": "调整滑动手势的灵敏度",

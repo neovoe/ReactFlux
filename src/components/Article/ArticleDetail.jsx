@@ -2,7 +2,7 @@ import { Divider, Tag, Typography } from "@arco-design/web-react"
 import { useStore } from "@nanostores/react"
 import ReactHtmlParser from "html-react-parser"
 import { littlefoot } from "littlefoot"
-import React, { forwardRef, useEffect, useRef } from "react"
+import { forwardRef, useEffect, useRef } from "react"
 import { useNavigate } from "react-router"
 import Lightbox from "yet-another-react-lightbox"
 import Captions from "yet-another-react-lightbox/plugins/captions"
@@ -33,7 +33,7 @@ import {
 } from "@/store/contentState"
 import { settingsState } from "@/store/settingsState"
 import { generateReadableDate } from "@/utils/date"
-import { extractImages } from "@/utils/images"
+import { extractImageSources } from "@/utils/images"
 import "./ArticleDetail.css"
 import "./littlefoot.css"
 
@@ -316,7 +316,7 @@ const ArticleDetail = forwardRef((_, ref) => {
     return lightboxSlideAnimation ? { fade: 250 } : { fade: 250, navigation: 0 }
   }
 
-  const imageSources = extractImages(activeContent.content)
+  const imageSources = extractImageSources(activeContent.content)
   const htmlParserOptions = getHtmlParserOptions(imageSources, togglePhotoSlider)
 
   const parsedHtml = ReactHtmlParser(activeContent.content, htmlParserOptions)
