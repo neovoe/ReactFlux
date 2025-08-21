@@ -11,9 +11,7 @@ import {
 import { useStore } from "@nanostores/react"
 import { memo } from "react"
 
-import CustomTooltip from "@/components/ui/CustomTooltip"
 import useEntryActions from "@/hooks/useEntryActions"
-import { polyglotState } from "@/hooks/useLanguage"
 import { dataState } from "@/store/dataState"
 import "./ArticleButtons.css"
 
@@ -30,10 +28,13 @@ MobileButtons.displayName = "MobileButtons"
 
 const ArticleButtons = ({ entry }) => {
   const { hasIntegrations } = useStore(dataState)
-  const { polyglot } = useStore(polyglotState)
 
-  const { handleSaveToThirdPartyServices, handleToggleStarred, handleToggleStatus } =
-    useEntryActions()
+  const {
+    handleSaveToThirdPartyServices,
+    handleToggleStarred,
+    handleToggleStatus,
+    handleOpenLinkExternally,
+  } = useEntryActions()
 
   const isUnread = entry.status === "unread"
   const isStarred = entry.starred
@@ -91,7 +92,7 @@ const ArticleButtons = ({ entry }) => {
       <Button
         icon={<IconLaunch />}
         shape="square"
-        onClick={() => window.open(entry.url, "_blank")}
+        onClick={() => handleOpenLinkExternally(entry)}
       />
     ),
   }
