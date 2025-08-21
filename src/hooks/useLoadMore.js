@@ -1,7 +1,7 @@
 import { useStore } from "@nanostores/react"
 import { atom } from "nanostores"
 
-import { contentState, setEntries, setLoadMoreVisible } from "@/store/contentState"
+import { contentState, setEntriesWithDeduplication, setLoadMoreVisible } from "@/store/contentState"
 import { settingsState } from "@/store/settingsState"
 import { getTimestamp } from "@/utils/date"
 import { parseCoverImage } from "@/utils/images"
@@ -20,7 +20,8 @@ const useLoadMore = () => {
 
   const updateEntries = (newEntries) => {
     const uniqueNewEntries = newEntries.filter((entry) => isUniqueEntry(entry, entries))
-    setEntries((prev) => [...prev, ...uniqueNewEntries])
+    const combinedEntries = [...entries, ...uniqueNewEntries]
+    setEntriesWithDeduplication(combinedEntries)
   }
 
   const getFilterParams = () => {
@@ -99,9 +100,9 @@ const useLoadMore = () => {
       let response
 
       if (infoFrom === "starred") {
-        response = await getEntries(showStatus === "unread" ? "unread" : null, filterParams)
+        response = await getEntries(showStatus === "unread" ? "unread" : null, null, filterParams)
       } else if (infoFrom === "history") {
-        response = await getEntries(null, filterParams)
+        response = await getEntries(null, null, filterParams)
       } else {
         switch (showStatus) {
           case "starred":
