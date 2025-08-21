@@ -47,6 +47,7 @@ const DesktopButtons = memo(
       </div>
       <div className="right-side">
         {commonButtons.status}
+        {commonButtons.star}
         {commonButtons.fetch}
         {commonButtons.toc}
         {hasIntegrations && (
@@ -67,6 +68,7 @@ DesktopButtons.displayName = "DesktopButtons"
 const MobileButtons = memo(({ commonButtons, hasHeadings }) => (
   <div className="mobile-buttons">
     {commonButtons.status}
+    {commonButtons.star}
     {commonButtons.prev}
     {commonButtons.close}
     {commonButtons.next}
@@ -205,6 +207,23 @@ const ActionButtons = () => {
         />
       </CustomTooltip>
     ),
+    star:
+      isBelowMedium && !enableSwipeGesture ? undefined : (
+        <CustomTooltip
+          mini
+          content={
+            isStarred
+              ? polyglot.t("article_card.unstar_tooltip")
+              : polyglot.t("article_card.star_tooltip")
+          }
+        >
+          <Button
+            icon={isStarred ? <IconStarFill style={{ color: "#ffcd00" }} /> : <IconStar />}
+            shape="circle"
+            onClick={() => handleToggleStarred(activeContent)}
+          />
+        </CustomTooltip>
+      ),
     close: (
       <CustomTooltip mini content={polyglot.t("article_card.close_tooltip")}>
         <Button icon={<IconClose />} shape="circle" onClick={() => exitDetailView()} />
@@ -232,18 +251,20 @@ const ActionButtons = () => {
         triggerProps={{ className: "settings-dropdown" }}
         droplist={
           <Menu>
-            <Menu.Item
-              key="toggle-star"
-              icon={isStarred ? <IconStarFill style={{ color: "#ffcd00" }} /> : <IconStar />}
-              shape="circle"
-              onClick={() => handleToggleStarred(activeContent)}
-            >
-              <span>
-                {isStarred
-                  ? polyglot.t("article_card.unstar_tooltip")
-                  : polyglot.t("article_card.star_tooltip")}
-              </span>
-            </Menu.Item>
+            {isBelowMedium && !enableSwipeGesture && (
+              <Menu.Item
+                key="toggle-star"
+                icon={isStarred ? <IconStarFill style={{ color: "#ffcd00" }} /> : <IconStar />}
+                shape="circle"
+                onClick={() => handleToggleStarred(activeContent)}
+              >
+                <span>
+                  {isStarred
+                    ? polyglot.t("article_card.unstar_tooltip")
+                    : polyglot.t("article_card.star_tooltip")}
+                </span>
+              </Menu.Item>
+            )}
 
             {hasIntegrations && isBelowMedium && (
               <Menu.Item
