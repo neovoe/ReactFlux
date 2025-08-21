@@ -2,7 +2,6 @@ import { createBrowserRouter, Navigate } from "react-router"
 
 import App from "@/App"
 import All from "@/pages/All"
-import Article from "@/pages/Article"
 import Category from "@/pages/Category"
 import ErrorPage from "@/pages/ErrorPage"
 import Feed from "@/pages/Feed"
@@ -15,77 +14,13 @@ import { getSettings } from "@/store/settingsState"
 
 const homePage = getSettings("homePage")
 
-/*const children = [
+const children = [
   { path: "/all", element: <All /> },
   { path: "/today", element: <Today /> },
   { path: "/starred", element: <Starred /> },
   { path: "/history", element: <History /> },
   { path: "/category/:id", element: <Category /> },
   { path: "/feed/:id", element: <Feed /> },
-  { path: "article/:id", element: <Article /> }
-]*/
-
-const children = [
-  {
-    path: "/all",
-    element: <All />,
-    children: [
-      {
-        path: "article/:articleId",
-        element: <Article />,
-      },
-    ],
-  },
-  {
-    path: "/today",
-    element: <Today />,
-    children: [
-      {
-        path: "article/:articleId",
-        element: <Article />,
-      },
-    ],
-  },
-  {
-    path: "/starred",
-    element: <Starred />,
-    children: [
-      {
-        path: "article/:articleId",
-        element: <Article />,
-      },
-    ],
-  },
-  {
-    path: "/history",
-    element: <History />,
-    children: [
-      {
-        path: "article/:articleId",
-        element: <Article />,
-      },
-    ],
-  },
-  {
-    path: "/category/:id",
-    element: <Category />,
-    children: [
-      {
-        path: "article/:articleId",
-        element: <Article />,
-      },
-    ],
-  },
-  {
-    path: "/feed/:id",
-    element: <Feed />,
-    children: [
-      {
-        path: "article/:articleId",
-        element: <Article />,
-      },
-    ],
-  },
 ]
 
 const router = createBrowserRouter(

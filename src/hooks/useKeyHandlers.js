@@ -1,6 +1,5 @@
 import { Message } from "@arco-design/web-react"
 import { useStore } from "@nanostores/react"
-import { useNavigate } from "react-router"
 
 import { polyglotState } from "./useLanguage"
 import useModalToggle from "./useModalToggle"
@@ -25,7 +24,6 @@ const useKeyHandlers = () => {
   const filteredEntries = useStore(filteredEntriesState)
   const prevContent = useStore(prevContentState)
   const nextContent = useStore(nextContentState)
-  const navigate = useNavigate()
 
   const { entryListRef, handleEntryClick } = useContentContext()
 
@@ -64,10 +62,6 @@ const useKeyHandlers = () => {
   const exitDetailView = withActiveContent(
     withPhotoSliderCheck(() => {
       setActiveContent(null)
-
-      // 获取当前路径并去掉 article 部分
-      const basePath = window.location.pathname.split("/article/")[0]
-      navigate(basePath || "/")
       if (entryListRef.current) {
         entryListRef.current.contentWrapperEl.focus()
       }
@@ -81,10 +75,6 @@ const useKeyHandlers = () => {
     } else {
       Message.info(polyglot.t("actions.no_previous_article"))
     }
-  })
-
-  const navigateToSelectedCard = withPhotoSliderCheck(() => {
-    setTimeout(() => scrollSelectedCardIntoView(), ANIMATION_DURATION_MS)
   })
 
   const navigateToNextArticle = withPhotoSliderCheck(() => {
@@ -167,7 +157,6 @@ const useKeyHandlers = () => {
   return {
     exitDetailView,
     fetchOriginalArticle,
-    navigateToSelectedCard,
     navigateToNextArticle,
     navigateToNextUnreadArticle,
     navigateToPreviousArticle,

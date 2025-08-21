@@ -149,8 +149,8 @@ const CategoryTitle = ({
         style={{ cursor: "pointer" }}
         tabIndex={0}
         className={classNames("category-title", {
-          "submenu-active": path.split("/article")[0] === `/category/${category.id}`,
-          "submenu-inactive": path.split("/article")[0] !== `/category/${category.id}`,
+          "submenu-active": path === `/category/${category.id}`,
+          "submenu-inactive": path !== `/category/${category.id}`,
         })}
         onClick={handleNavigation}
         onContextMenu={(e) => {
@@ -212,7 +212,7 @@ const CountDisplay = ({ count }) => {
 const CustomMenuItem = ({ path, Icon, label, count }) => {
   const location = useLocation()
   const navigate = useNavigate()
-  const isSelected = location.pathname.split("/article/")[0] === path
+  const isSelected = location.pathname === path
 
   const handleNavigation = () => {
     navigate(path)
@@ -282,7 +282,7 @@ const FeedMenuItem = ({ feed, onEditFeed, onRefreshFeed, onMarkAllAsRead, onDele
 
   const navigate = useNavigate()
   const location = useLocation()
-  const isSelected = location.pathname.split("/article/")[0] === `/feed/${feed.id}`
+  const isSelected = location.pathname === `/feed/${feed.id}`
 
   const [menuVisible, setMenuVisible] = useState(false)
 
@@ -646,7 +646,7 @@ const Sidebar = () => {
   const { handleDeleteCategory } = useCategoryOperations(true)
 
   const location = useLocation()
-  const currentPath = location.pathname.split("/article/")[0]
+  const currentPath = location.pathname
 
   const { fetchCounters } = useAppData()
   const { infoFrom, infoId } = useStore(contentState)

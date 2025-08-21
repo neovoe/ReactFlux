@@ -1,10 +1,13 @@
-import { Button, Notification } from "@arco-design/web-react"
+import { Button, Notification, Typography } from "@arco-design/web-react"
+import { IconEmpty } from "@arco-design/web-react/icon"
 import { useStore } from "@nanostores/react"
 import { useEffect, useRef } from "react"
-import { Outlet, useParams } from "react-router"
+import { useLocation } from "react-router"
 
 import FooterPanel from "./FooterPanel"
 
+import ActionButtons from "@/components/Article/ActionButtons"
+import ArticleDetail from "@/components/Article/ArticleDetail"
 import ArticleList from "@/components/Article/ArticleList"
 import SearchAndSortBar from "@/components/Article/SearchAndSortBar"
 import useAppData from "@/hooks/useAppData"
@@ -15,7 +18,6 @@ import useDocumentTitle from "@/hooks/useDocumentTitle"
 import useKeyHandlers from "@/hooks/useKeyHandlers"
 import { polyglotState } from "@/hooks/useLanguage"
 import useScreenWidth from "@/hooks/useScreenWidth"
-import Article from "@/pages/Article"
 import { contentState, setActiveContent, setInfoFrom, setInfoId } from "@/store/contentState"
 import { dataState } from "@/store/dataState"
 import { duplicateHotkeysState } from "@/store/hotkeysState"
@@ -24,8 +26,7 @@ import { settingsState } from "@/store/settingsState"
 import "./Content.css"
 
 const Content = ({ info, getEntries, markAllAsRead }) => {
-  const { articleId } = useParams()
-  const { entries, activeContent, filterDate, infoFrom, isArticleLoading } = useStore(contentState)
+  const { activeContent, filterDate, isArticleLoading } = useStore(contentState)
   const { isAppDataReady } = useStore(dataState)
   const { orderBy, orderDirection, showStatus } = useStore(settingsState)
   const { polyglot } = useStore(polyglotState)
@@ -33,9 +34,11 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
 
   const cardsRef = useRef(null)
 
+  const location = useLocation()
+
   useDocumentTitle()
 
-  const { entryListRef, handleEntryClick, handleEntryActive } = useContentContext()
+  const { entryDetailRef, entryListRef, handleEntryClick } = useContentContext()
 
   const { showHotkeysSettings } = useKeyHandlers()
 
@@ -95,15 +98,10 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   }, [duplicateHotkeys, polyglot, showHotkeysSettings])
 
   useEffect(() => {
-    const contactInfo = info.id ? `${info.from}/${info.id}` : info.from
-    if (articleId || contactInfo === infoFrom) {
-      return
-    }
-    setInfoFrom(contactInfo)
+    setInfoFrom(info.from)
     setInfoId(info.id)
     if (activeContent) {
       setActiveContent(null)
-      return
     }
     if (info.from === "category") {
       fetchArticleListWithRelatedData()
@@ -113,7 +111,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   }, [info])
 
   useEffect(() => {
-    if (["starred", "history"].includes(info.from) || articleId) {
+    if (["starred", "history"].includes(info.from)) {
       return
     }
     fetchArticleListOnly()
@@ -124,25 +122,10 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   }, [filterDate, orderDirection, showStatus])
 
   useEffect(() => {
-    if (articleId && !activeContent) {
-      const entry = entries.find((entry) => entry.id === Number.parseInt(articleId))
-      if (entry) {
-        handleEntryActive(entry)
-      }
-    }
-  }, [entries])
-
-  useEffect(() => {
-    if (articleId) {
-      const entry = entries.find((entry) => entry.id === Number.parseInt(articleId))
-      if (entry && activeContent && activeContent.id !== articleId) {
-        handleEntryActive(entry)
-      }
-    }
-    if (!articleId && activeContent) {
+    if (isBelowMedium && activeContent) {
       setActiveContent(null)
     }
-  }, [articleId])
+  }, [location.pathname])
 
   return (
     <>
@@ -165,9 +148,26 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
           refreshArticleList={fetchArticleListWithRelatedData}
         />
       </div>
-      <Article>
-        <Outlet />
-      </Article>
+      {activeContent ? (
+        <div className="article-container content-wrapper">
+          {!isBelowMedium && <ActionButtons />}
+          {isArticleLoading ? (
+            <div style={{ flex: 1 }} />
+          ) : (
+            <>
+              <ArticleDetail ref={entryDetailRef} />
+            </>
+          )}
+          {isBelowMedium && <ActionButtons />}
+        </div>
+      ) : (
+        <div className="content-empty content-wrapper">
+          <IconEmpty style={{ fontSize: "64px" }} />
+          <Typography.Title heading={6} style={{ color: "var(--color-text-3)", marginTop: "10px" }}>
+            ReactFlux
+          </Typography.Title>
+        </div>
+      )}
     </>
   )
 }
