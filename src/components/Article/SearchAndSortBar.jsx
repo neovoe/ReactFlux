@@ -15,7 +15,7 @@ import {
   IconSortDescending,
 } from "@arco-design/web-react/icon"
 import { useStore } from "@nanostores/react"
-import { Fragment, memo, useEffect, useMemo, useState } from "react"
+import { Fragment, memo, useEffect, useMemo, useRef, useState } from "react"
 import { useLocation, useParams } from "react-router"
 
 import SidebarTrigger from "./SidebarTrigger.jsx"
@@ -33,22 +33,22 @@ import {
 import { categoriesState, feedsState } from "@/store/dataState"
 import { settingsState, updateSettings } from "@/store/settingsState"
 import { getStartOfToday } from "@/utils/date"
+import { extractBasePath } from "@/utils/url"
 
 import "./SearchAndSortBar.css"
 
-const SearchModal = memo(({ info, initialValue, visible, onCancel, onConfirm }) => {
-  const { filterType, infoFrom } = useStore(contentState)
+const SearchModal = memo(({ initialValue, visible, onCancel, onConfirm }) => {
+  const { filterType } = useStore(contentState)
   const { polyglot } = useStore(polyglotState)
   const tooltipLines = polyglot.t("search.tooltip").split("\n")
 
   const [inputValue, setInputValue] = useState(initialValue)
 
   useEffect(() => {
-    const contactInfo = info.id ? `${info.from}/${info.id}` : info.from
-    if (contactInfo !== infoFrom) {
+    if (visible) {
       setInputValue(initialValue)
     }
-  }, [info.from, info.id, infoFrom, initialValue, visible])
+  }, [initialValue, visible])
 
   const handleFilterTypeChange = (value) => {
     setFilterType(value)
@@ -140,7 +140,7 @@ const ActiveButton = ({ active, icon, tooltip, onClick }) => (
   </CustomTooltip>
 )
 
-const SearchAndSortBar = ({ info }) => {
+const SearchAndSortBar = () => {
   const { filterDate, filterString, infoFrom, isArticleListReady } = useStore(contentState)
   const { orderDirection, showStatus } = useStore(settingsState)
   const { polyglot } = useStore(polyglotState)
@@ -155,6 +155,8 @@ const SearchAndSortBar = ({ info }) => {
   const [calendarVisible, setCalendarVisible] = useState(false)
   const [searchModalVisible, setSearchModalVisible] = useState(false)
   const [modalInputValue, setModalInputValue] = useState("")
+
+  const prevBasePathRef = useRef()
 
   const { title, count } = useMemo(() => {
     if (id) {
@@ -209,13 +211,16 @@ const SearchAndSortBar = ({ info }) => {
   }
 
   useEffect(() => {
-    const contactInfo = info.id ? `${info.from}/${info.id}` : info.from
-    if (contactInfo !== infoFrom) {
+    const currentBasePath = extractBasePath(location.pathname)
+
+    if (prevBasePathRef?.current !== currentBasePath) {
       setFilterDate(null)
       setFilterType("title")
       setFilterString("")
     }
-  }, [info, infoFrom, location.pathname, showStatus])
+
+    prevBasePathRef.current = currentBasePath
+  }, [location.pathname, showStatus])
 
   return (
     <div className="search-and-sort-bar" style={{ width: isBelowMedium ? "100%" : 370 }}>
@@ -292,7 +297,6 @@ const SearchAndSortBar = ({ info }) => {
         </CustomTooltip>
       </div>
       <SearchModal
-        info={info}
         initialValue={modalInputValue}
         visible={searchModalVisible}
         onCancel={closeSearchModal}
