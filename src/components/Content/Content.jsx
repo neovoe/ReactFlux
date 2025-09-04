@@ -43,6 +43,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   const { polyglot } = useStore(polyglotState)
   const duplicateHotkeys = useStore(duplicateHotkeysState)
 
+  const EDGE = 30
   const [isSwipingLeft, setIsSwipingLeft] = useState(false)
   const [isSwipingRight, setIsSwipingRight] = useState(false)
   const cardsRef = useRef(null)
@@ -118,15 +119,36 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     delta: 50 / swipeSensitivity,
     onSwiping: enableSwipeGesture
       ? (eventData) => {
-          if (window.getSelection().toString()) {
+          if (window.getSelection().toString() || eventData.initial[0] < EDGE) {
             return
           }
           handleSwiping(eventData)
         }
       : undefined,
-    onSwiped: enableSwipeGesture ? handleSwiped : undefined,
-    onSwipedLeft: enableSwipeGesture ? handleSwipeLeft : undefined,
-    onSwipedRight: enableSwipeGesture ? handleSwipeRight : undefined,
+    onSwiped: enableSwipeGesture
+      ? (eventData) => {
+          if (window.getSelection().toString() || eventData?.initial?.[0] < EDGE) {
+            return
+          }
+          handleSwiped()
+        }
+      : undefined,
+    onSwipedLeft: enableSwipeGesture
+      ? (eventData) => {
+          if (window.getSelection().toString() || eventData?.initial?.[0] < EDGE) {
+            return
+          }
+          handleSwipeLeft()
+        }
+      : undefined,
+    onSwipedRight: enableSwipeGesture
+      ? (eventData) => {
+          if (window.getSelection().toString() || eventData?.initial?.[0] < EDGE) {
+            return
+          }
+          handleSwipeRight()
+        }
+      : undefined,
   })
 
   useEffect(() => {
