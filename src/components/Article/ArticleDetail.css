@@ -53,7 +53,7 @@ h6,
 b,
 strong {
   color: var(--color-text-1);
-  font-weight: var(--font-weight-600);
+  font-weight: var(--font-weight-700);
 }
 
 .article-content li,
@@ -120,7 +120,7 @@ p {
 /* 文章标题链接样式 */
 .article-title a {
   color: var(--color-text-1); /* 设置链接文字颜色 */
-  font-weight: var(--font-weight-600);
+  font-weight: var(--font-weight-700);
   text-decoration: none;
 }
 

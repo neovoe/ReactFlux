@@ -21,14 +21,10 @@ textarea {
   font-family:
     Inter,
     -apple-system,
-    BlinkMacSystemFont,
-    PingFang SC,
-    Hiragino Sans GB,
-    "Noto Sans SC",
-    helvetica neue,
-    ubuntu,
     roboto,
     noto,
+    PingFang SC,
+    "Noto Sans SC",
     system-ui,
     sans-serif;
 }
@@ -40,14 +36,11 @@ body {
   font-family:
     Inter,
     -apple-system,
-    BlinkMacSystemFont,
-    PingFang SC,
-    "Noto Sans SC",
-    Hiragino Sans GB,
-    Helvetica Neue,
     ubuntu,
     roboto,
     noto,
+    PingFang SC,
+    "Noto Sans SC",
     system-ui,
     sans-serif;
 }
