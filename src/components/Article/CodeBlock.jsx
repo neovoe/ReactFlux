@@ -34,7 +34,7 @@ const CodeBlock = ({ children }) => {
       if (SUPPORTED_LANGUAGES.includes(detectedLanguage)) {
         setLanguage(detectedLanguage)
       } else {
-        console.info("detectedLanguage not supported: ", detectedLanguage)
+        console.info("detectedLanguage not supported:", detectedLanguage)
       }
     }, ANIMATION_DURATION_MS)
 
@@ -52,7 +52,7 @@ const CodeBlock = ({ children }) => {
         showLineNumbers={false}
         wrapLines={false}
         style={
-          window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+          globalThis.matchMedia && globalThis.matchMedia("(prefers-color-scheme: dark)").matches
             ? dracula
             : idea
         }

@@ -1,6 +1,6 @@
 import { Divider, Tag, Typography } from "@arco-design/web-react"
 import { useStore } from "@nanostores/react"
-import ReactHtmlParser from "html-react-parser"
+import ReactHtmlParser, { domToReact } from "html-react-parser"
 import { littlefoot } from "littlefoot"
 import { forwardRef, useEffect, useRef } from "react"
 import { useNavigate } from "react-router"
@@ -96,7 +96,10 @@ const decodeAndParseCodeContent = (preElement) => {
       return child.data ?? (child.name === "br" ? "\n" : "")
     })
     .join("")
-    .replace(new RegExp(Object.keys(htmlEntities).join("|"), "g"), (match) => htmlEntities[match])
+    .replaceAll(
+      new RegExp(Object.keys(htmlEntities).join("|"), "g"),
+      (match) => htmlEntities[match],
+    )
 }
 
 const handleTableBasedCode = (node) => {
@@ -170,7 +173,7 @@ const processFigcaptionContent = (children) => {
   })
 }
 
-const handleFigure = (node, imageSources, togglePhotoSlider) => {
+const handleFigure = (node, imageSources, togglePhotoSlider, options) => {
   const firstChild = node.children[0]
   const hasImages = node.children.some((child) => child.name === "img")
 
@@ -205,7 +208,7 @@ const handleFigure = (node, imageSources, togglePhotoSlider) => {
               </figcaption>
             )
           }
-          return null
+          return domToReact([child], options)
         })}
       </figure>
     )
@@ -230,12 +233,10 @@ const handleCodeBlock = (node) => {
   }
 
   // Extract code content
-  let codeContent
-  if (node.children[0]?.name === "code") {
-    codeContent = decodeAndParseCodeContent(node.children[0])
-  } else {
-    codeContent = decodeAndParseCodeContent(node)
-  }
+  const codeContent =
+    node.children[0]?.name === "code"
+      ? decodeAndParseCodeContent(node.children[0])
+      : decodeAndParseCodeContent(node)
 
   return <CodeBlock>{codeContent}</CodeBlock>
 }
@@ -254,32 +255,42 @@ const handleVideo = (node) => {
   )
 }
 
-const getHtmlParserOptions = (imageSources, togglePhotoSlider) => ({
-  replace: (node) => {
-    if (node.type !== "tag") {
-      return node
-    }
-
-    switch (node.name) {
-      case "a":
-        return node.children.length > 0
-          ? handleLinkWithImage(node, imageSources, togglePhotoSlider)
-          : node
-      case "img":
-        return handleImage(node, imageSources, togglePhotoSlider)
-      case "pre":
-        return handleCodeBlock(node)
-      case "figure":
-        return handleFigure(node, imageSources, togglePhotoSlider)
-      case "video":
-        return handleVideo(node)
-      case "table":
-        return handleContentTable(node)
-      default:
+const getHtmlParserOptions = (imageSources, togglePhotoSlider) => {
+  const options = {
+    replace: (node) => {
+      if (node.type !== "tag") {
         return node
-    }
-  },
-})
+      }
+
+      switch (node.name) {
+        case "a": {
+          return node.children.length > 0
+            ? handleLinkWithImage(node, imageSources, togglePhotoSlider)
+            : node
+        }
+        case "img": {
+          return handleImage(node, imageSources, togglePhotoSlider)
+        }
+        case "pre": {
+          return handleCodeBlock(node)
+        }
+        case "figure": {
+          return handleFigure(node, imageSources, togglePhotoSlider, options)
+        }
+        case "video": {
+          return handleVideo(node)
+        }
+        case "table": {
+          return handleContentTable(node)
+        }
+        default: {
+          return node
+        }
+      }
+    },
+  }
+  return options
+}
 
 const ArticleDetail = forwardRef((_, ref) => {
   const navigate = useNavigate()

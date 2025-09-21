@@ -496,6 +496,26 @@ const CategoryGroup = ({
     ))
 }
 
+const readFileAsText = async (file) => {
+  try {
+    return await file.text()
+  } catch (error) {
+    throw new Error(`Failed to read file: ${error.message}`)
+  }
+}
+
+const downloadFile = (content, filename, type) => {
+  const blob = new Blob([content], { type })
+  const url = globalThis.URL.createObjectURL(blob)
+  const link = document.createElement("a")
+  link.href = url
+  link.download = filename
+  document.body.append(link)
+  link.click()
+  link.remove()
+  globalThis.URL.revokeObjectURL(url)
+}
+
 const MoreOptionsDropdown = () => {
   const { setFeedManageVisible } = useModalToggle()
   const { showHiddenFeeds, showUnreadFeedsOnly } = useStore(settingsState)
@@ -509,15 +529,6 @@ const MoreOptionsDropdown = () => {
 
   const handleToggleUnreadFeedsOnly = () => {
     updateSettings({ showUnreadFeedsOnly: !showUnreadFeedsOnly })
-  }
-
-  const readFileAsText = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onload = (e) => resolve(e.target.result)
-      reader.onerror = reject
-      reader.readAsText(file)
-    })
   }
 
   const handleImportOPML = async (e) => {
@@ -546,18 +557,6 @@ const MoreOptionsDropdown = () => {
         content: error.message,
       })
     }
-  }
-
-  const downloadFile = (content, filename, type) => {
-    const blob = new Blob([content], { type })
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement("a")
-    link.href = url
-    link.download = filename
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    window.URL.revokeObjectURL(url)
   }
 
   const handleExportOPML = async () => {
@@ -608,7 +607,7 @@ const MoreOptionsDropdown = () => {
                 : polyglot.t("sidebar.hide_read_feeds")}
             </MenuItem>
             <Divider style={{ margin: "4px 0" }} />
-            <MenuItem key="3" onClick={() => document.getElementById("opmlInput").click()}>
+            <MenuItem key="3" onClick={() => document.querySelector("#opmlInput").click()}>
               <IconUpload className="icon-right" />
               {polyglot.t("sidebar.import_opml")}
             </MenuItem>
@@ -635,6 +634,10 @@ const MoreOptionsDropdown = () => {
       />
     </>
   )
+}
+
+const updateAllEntriesAsRead = () => {
+  setEntries((prev) => prev.map((entry) => ({ ...entry, status: "read" })))
 }
 
 const Sidebar = () => {
@@ -664,10 +667,6 @@ const Sidebar = () => {
     setSelectedKeys([currentPath])
   }, [currentPath])
 
-  const updateAllEntriesAsRead = () => {
-    setEntries((prev) => prev.map((entry) => ({ ...entry, status: "read" })))
-  }
-
   const handleEditCategory = (category) => {
     setSelectedCategory(category)
     setCategoryModalVisible(true)
@@ -684,7 +683,7 @@ const Sidebar = () => {
         title: polyglot.t("sidebar.refresh_category_success"),
       })
       await fetchCounters()
-    } catch (error) {
+    } catch {
       Notification.error({
         title: polyglot.t("sidebar.refresh_category_error"),
       })
@@ -699,9 +698,9 @@ const Sidebar = () => {
 
       setUnreadInfo((prevUnreadInfo) => {
         const newUnreadInfo = { ...prevUnreadInfo }
-        feedsInCategory.forEach((feed) => {
+        for (const feed of feedsInCategory) {
           newUnreadInfo[feed.id] = 0
-        })
+        }
         return newUnreadInfo
       })
 
@@ -715,7 +714,7 @@ const Sidebar = () => {
       Notification.success({
         title: polyglot.t("article_list.mark_all_as_read_success"),
       })
-    } catch (error) {
+    } catch {
       Notification.error({
         title: polyglot.t("article_list.mark_all_as_read_error"),
       })

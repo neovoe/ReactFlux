@@ -62,19 +62,13 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   const { isBelowMedium } = useScreenWidth()
 
   const fetchArticleListOnly = async () => {
-    if (!isAppDataReady) {
-      await fetchAppData()
-    } else {
-      await fetchArticleList(getEntries)
-    }
+    await (isAppDataReady ? fetchArticleList(getEntries) : fetchAppData())
   }
 
   const fetchArticleListWithRelatedData = async () => {
-    if (!isAppDataReady) {
-      await fetchAppData()
-    } else {
-      await Promise.all([fetchArticleList(getEntries), fetchFeedRelatedData()])
-    }
+    await (isAppDataReady
+      ? Promise.all([fetchArticleList(getEntries), fetchFeedRelatedData()])
+      : fetchAppData())
   }
 
   const fetchSingleEntry = async (entryId) => {
@@ -119,7 +113,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     delta: 50 / swipeSensitivity,
     onSwiping: enableSwipeGesture
       ? (eventData) => {
-          if (window.getSelection().toString() || eventData.initial[0] < EDGE) {
+          if (globalThis.getSelection().toString() || eventData.initial[0] < EDGE) {
             return
           }
           handleSwiping(eventData)
@@ -127,7 +121,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       : undefined,
     onSwiped: enableSwipeGesture
       ? (eventData) => {
-          if (window.getSelection().toString() || eventData?.initial?.[0] < EDGE) {
+          if (globalThis.getSelection().toString() || eventData?.initial?.[0] < EDGE) {
             return
           }
           handleSwiped()
@@ -135,7 +129,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       : undefined,
     onSwipedLeft: enableSwipeGesture
       ? (eventData) => {
-          if (window.getSelection().toString() || eventData?.initial?.[0] < EDGE) {
+          if (globalThis.getSelection().toString() || eventData?.initial?.[0] < EDGE) {
             return
           }
           handleSwipeLeft()
@@ -143,7 +137,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       : undefined,
     onSwipedRight: enableSwipeGesture
       ? (eventData) => {
-          if (window.getSelection().toString() || eventData?.initial?.[0] < EDGE) {
+          if (globalThis.getSelection().toString() || eventData?.initial?.[0] < EDGE) {
             return
           }
           handleSwipeRight()
