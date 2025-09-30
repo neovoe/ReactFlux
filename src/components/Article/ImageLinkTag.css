@@ -1,0 +1,16 @@
+.image-container:has(.link-tag) {
+  margin-bottom: 10px !important;
+}
+
+.image-container:has(.link-tag) img {
+  margin-bottom: 0 !important;
+}
+
+.link-tag {
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+  border-top-left-radius: unset;
+  border-top-right-radius: unset;
+  z-index: 1;
+}

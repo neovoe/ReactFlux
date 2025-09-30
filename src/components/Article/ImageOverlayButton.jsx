@@ -1,7 +1,8 @@
-import { Tag, Tooltip } from "@arco-design/web-react"
-import { IconLink } from "@arco-design/web-react/icon"
+import { Tooltip } from "@arco-design/web-react"
 import { useStore } from "@nanostores/react"
 import { useEffect, useState } from "react"
+
+import ImageLinkTag from "./ImageLinkTag"
 
 import { settingsState } from "@/store/settingsState"
 import { MIN_THUMBNAIL_SIZE } from "@/utils/constants"
@@ -44,20 +45,7 @@ const ImageComponent = ({ imgHref, imgNode, isIcon, isBigImage, index, togglePho
           togglePhotoSlider(index)
         }}
       />
-      {imgHref !== "#" && (
-        <Tooltip content={imgHref}>
-          <Tag
-            className="link-tag"
-            icon={<IconLink />}
-            onClick={(e) => {
-              e.stopPropagation()
-              window.open(imgHref, "_blank")
-            }}
-          >
-            {imgHref}
-          </Tag>
-        </Tooltip>
-      )}
+      <ImageLinkTag href={imgHref} />
     </div>
   )
 }

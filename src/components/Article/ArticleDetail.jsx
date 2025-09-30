@@ -18,6 +18,7 @@ import "yet-another-react-lightbox/plugins/counter.css"
 import "yet-another-react-lightbox/plugins/thumbnails.css"
 
 import CodeBlock from "./CodeBlock"
+import ImageLinkTag from "./ImageLinkTag"
 import ImageOverlayButton from "./ImageOverlayButton"
 
 import CustomLink from "@/components/ui/CustomLink"
@@ -38,10 +39,27 @@ import "./ArticleDetail.css"
 import "./littlefoot.css"
 
 const handleLinkWithImage = (node, imageSources, togglePhotoSlider) => {
-  const imgNode = node.children.find((child) => child.type === "tag" && child.name === "img")
+  const imgNodes = node.children.filter((child) => child.type === "tag" && child.name === "img")
 
-  if (imgNode) {
-    const index = imageSources.findIndex((item) => item.src === imgNode.attribs.src)
+  if (imgNodes.length > 0) {
+    // If there are multiple images, render them with link display
+    if (imgNodes.length > 1) {
+      return (
+        <div className="image-wrapper">
+          <div className="image-container">
+            {imgNodes.map((imgNode, index) => (
+              <div key={`link-img-${index}`}>
+                {handleImage(imgNode, imageSources, togglePhotoSlider)}
+              </div>
+            ))}
+            <ImageLinkTag href={node.attribs.href} />
+          </div>
+        </div>
+      )
+    }
+
+    // Single image case
+    const index = imageSources.findIndex((item) => item.src === imgNodes[0].attribs.src)
 
     return (
       <ImageOverlayButton
