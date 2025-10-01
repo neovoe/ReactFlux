@@ -356,8 +356,8 @@ const FeedMenuItem = ({ feed, onEditFeed, onRefreshFeed, onMarkAllAsRead, onDele
             expandable={false}
             showTooltip={!isBelowMedium}
             style={{
-              width: feed.unreadCount ? "80%" : "100%",
-              paddingLeft: "20px",
+              width: feed.unreadCount ? "80%" : isBelowMedium ? "90%" : "100%",
+              paddingLeft: "30px",
               boxSizing: "border-box",
             }}
           >
@@ -660,6 +660,8 @@ const Sidebar = () => {
   const location = useLocation()
   const currentPath = location.pathname
 
+  const { isBelowMedium } = useScreenWidth()
+
   const { fetchCounters } = useAppData()
   const { infoFrom, infoId } = useStore(contentState)
 
@@ -780,23 +782,29 @@ const Sidebar = () => {
           </div>
           <Skeleton animation={true} loading={!isCoreDataReady} text={{ rows: 6 }} />
           {isCoreDataReady && (
-            <Collapse
-              activeKey={expandedCategories}
-              bordered={false}
-              triggerRegion="icon"
-              onChange={(_key, keys) => setExpandedCategories(keys)}
+            <div
+              className={
+                isBelowMedium ? "category-group-container mobile" : "category-group-container"
+              }
             >
-              <CategoryGroup
-                onDeleteCategory={handleDeleteCategory}
-                onDeleteFeed={handleDeleteFeed}
-                onEditCategory={handleEditCategory}
-                onEditFeed={handleEditFeed}
-                onMarkAllAsReadCategory={handleMarkAllAsReadCategory}
-                onMarkAllAsReadFeed={handleMarkAllAsReadFeed}
-                onRefreshCategory={handleRefreshCategory}
-                onRefreshFeed={handleRefreshFeed}
-              />
-            </Collapse>
+              <Collapse
+                activeKey={expandedCategories}
+                bordered={false}
+                triggerRegion="icon"
+                onChange={(_key, keys) => setExpandedCategories(keys)}
+              >
+                <CategoryGroup
+                  onDeleteCategory={handleDeleteCategory}
+                  onDeleteFeed={handleDeleteFeed}
+                  onEditCategory={handleEditCategory}
+                  onEditFeed={handleEditFeed}
+                  onMarkAllAsReadCategory={handleMarkAllAsReadCategory}
+                  onMarkAllAsReadFeed={handleMarkAllAsReadFeed}
+                  onRefreshCategory={handleRefreshCategory}
+                  onRefreshFeed={handleRefreshFeed}
+                />
+              </Collapse>
+            </div>
           )}
         </Menu>
       </div>

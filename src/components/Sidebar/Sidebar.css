@@ -6,6 +6,14 @@
   padding-right: 12px;
 }
 
+.category-group-container.mobile .arco-menu-item .arco-icon {
+  margin-right: auto;
+}
+
+.category-group-container.mobile .custom-menu-item .item-count {
+  margin-right: -6px;
+}
+
 .category-title,
 .custom-menu-item {
   display: flex;
@@ -22,7 +30,7 @@
 .item-count {
   display: flex;
   justify-content: flex-end;
-  width: 50%;
+  /*width: 50%;*/
   color: var(--color-text-4);
 }
 
@@ -50,6 +58,10 @@
   align-items: center;
 }
 
+.category-group-container.mobile .custom-menu-item {
+  margin-right: -2px;
+}
+
 .custom-menu-item .item-count {
   display: flex;
   justify-content: flex-end;
@@ -63,6 +75,10 @@
   margin-left: -32px;
   border-radius: var(--border-radius-medium);
   padding: 8px 12px 8px 42px;
+}
+
+.category-group-container.mobile .category-title {
+  margin-right: -15px;
 }
 
 .feed-icon-sidebar {
