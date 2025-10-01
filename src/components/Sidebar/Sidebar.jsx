@@ -194,7 +194,7 @@ const CategoryTitle = ({
             size="mini"
             onClick={(e) => {
               e.stopPropagation()
-              setMenuVisible(true)
+              setMenuVisible(!menuVisible)
             }}
           />
         )}
@@ -377,7 +377,7 @@ const FeedMenuItem = ({ feed, onEditFeed, onRefreshFeed, onMarkAllAsRead, onDele
               size="mini"
               onClick={(e) => {
                 e.stopPropagation()
-                setMenuVisible(true)
+                setMenuVisible(!menuVisible)
               }}
             />
           )}
