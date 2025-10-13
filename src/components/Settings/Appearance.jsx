@@ -1,4 +1,4 @@
-import { Divider, Select, Switch } from "@arco-design/web-react"
+import { Divider, Select, Slider, Switch } from "@arco-design/web-react"
 import { useStore } from "@nanostores/react"
 
 import SettingItem from "./SettingItem"
@@ -19,6 +19,7 @@ const handleConfigChange = (settingsChanges) => {
 const Appearance = () => {
   const {
     coverDisplayMode,
+    cardDescLineClamp,
     lightboxSlideAnimation,
     showDetailedRelativeTime,
     showEstimatedReadingTime,
@@ -87,6 +88,23 @@ const Appearance = () => {
             {polyglot.t("appearance.cover_display_mode_thumbnail")}
           </Select.Option>
         </Select>
+      </SettingItem>
+
+      <Divider />
+
+      <SettingItem
+        description={polyglot.t("settings.card_description_lines_description")}
+        title={polyglot.t("settings.card_description_lines_label")}
+      >
+        <Slider
+          className="input-slider"
+          max={4}
+          min={0}
+          showTicks={true}
+          step={1}
+          value={cardDescLineClamp}
+          onChange={(value) => updateSettings({ cardDescLineClamp: value })}
+        />
       </SettingItem>
 
       <Divider />

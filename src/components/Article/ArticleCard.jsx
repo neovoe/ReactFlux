@@ -71,6 +71,7 @@ const extractTextFromHtml = (html) => {
 const ArticleCard = ({ entry, handleEntryClick, children }) => {
   const {
     coverDisplayMode,
+    cardDescLineClamp,
     enableContextMenu,
     markReadOnScroll,
     showDetailedRelativeTime,
@@ -290,7 +291,34 @@ const ArticleCard = ({ entry, handleEntryClick, children }) => {
               </div>
             </div>
 
-            <h3 className="card-title">{entry.title}</h3>
+            <div className="card-body">
+              <div className="card-body-inner">
+                <h3 className="card-title">{entry.title}</h3>
+                {showEstimatedReadingTime && (
+                  <div className="card-reading-time">
+                    <IconClockCircle />
+                    <span>{generateReadingTime(entry.reading_time)}</span>
+                  </div>
+                )}
+                {cardDescLineClamp > 0 && (
+                  <span
+                    className="card-preview"
+                    style={{ lineClamp: cardDescLineClamp, WebkitLineClamp: cardDescLineClamp }}
+                  >
+                    {previewContent}
+                  </span>
+                )}
+              </div>
+              {entry.coverSource && !hasError && isImageLoaded && !isWideImage && (
+                <div className="card-image-mini">
+                  <ArticleCardImage
+                    entry={entry}
+                    isWideImage={isWideImage}
+                    setHasError={setHasError}
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
           {entry.coverSource && !hasError && isImageLoaded && isWideImage && (
@@ -298,32 +326,6 @@ const ArticleCard = ({ entry, handleEntryClick, children }) => {
               <ArticleCardImage entry={entry} isWideImage={isWideImage} setHasError={setHasError} />
             </div>
           )}
-
-          <div className="card-body">
-            <div className="card-text">
-              {showEstimatedReadingTime && (
-                <div className="card-reading-time">
-                  <IconClockCircle />
-                  <span>{generateReadingTime(entry.reading_time)}</span>
-                </div>
-              )}
-              <p
-                className="card-preview"
-                style={{ lineClamp: getLineClamp(), WebkitLineClamp: getLineClamp() }}
-              >
-                {previewContent}
-              </p>
-            </div>
-            {entry.coverSource && !hasError && isImageLoaded && !isWideImage && (
-              <div className="card-image-mini">
-                <ArticleCardImage
-                  entry={entry}
-                  isWideImage={isWideImage}
-                  setHasError={setHasError}
-                />
-              </div>
-            )}
-          </div>
         </div>
         {children}
       </div>

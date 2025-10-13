@@ -267,6 +267,8 @@
     "enable_swipe_gesture_label": "启用滑动手势",
     "swipe_sensitivity_description": "调整滑动手势的灵敏度",
     "swipe_sensitivity_label": "滑动灵敏度",
+    "card_description_lines_label": "文章卡片描述行数",
+    "card_description_lines_description": "设置文章卡片中描述的最大行数",
     "update_content_on_fetch_label": "获取原文时自动保存",
     "update_content_on_fetch_description": "获取原文时自动更新并保存到数据库"
   },

@@ -267,6 +267,8 @@
     "enable_swipe_gesture_label": "Wischgeste aktivieren",
     "swipe_sensitivity_description": "Empfindlichkeit der Wischgesten anpassen",
     "swipe_sensitivity_label": "Wischempfindlichkeit",
+    "card_description_lines_label": "Anzahl der Zeilen in der Artikelbeschreibung",
+    "card_description_lines_description": "So viele Zeilen der Artikelbeschreibung in der Artikelkarte anzeigen",
     "update_content_on_fetch_label": "Abgerufene Inhalte automatisch speichern",
     "update_content_on_fetch_description": "Abgerufene Inhalte automatisch aktualisieren und in der Datenbank speichern"
   },

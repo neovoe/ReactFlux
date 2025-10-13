@@ -267,6 +267,8 @@
     "enable_swipe_gesture_label": "Activer le geste de balayage",
     "swipe_sensitivity_description": "Ajuster la sensibilité des gestes de balayage",
     "swipe_sensitivity_label": "Sensibilité du balayage",
+    "card_description_lines_label": "Lignes de description de la carte",
+    "card_description_lines_description": "Nombre de lignes à afficher dans la description de la carte d'article",
     "update_content_on_fetch_label": "Enregistrer automatiquement le contenu récupéré",
     "update_content_on_fetch_description": "Mettre à jour et enregistrer automatiquement le contenu récupéré dans la base de données"
   },

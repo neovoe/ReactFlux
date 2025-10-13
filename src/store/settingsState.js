@@ -5,6 +5,7 @@ import { getBrowserLanguage } from "@/utils/locales"
 const defaultValue = {
   articleWidth: 75,
   coverDisplayMode: "auto",
+  cardDescLineClamp: 2,
   edgeToEdgeImages: false,
   enableContextMenu: true,
   enableSwipeGesture: true,
