@@ -20,6 +20,8 @@
   flex-direction: column;
   flex: 1;
   gap: 4px;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .card-content {
