@@ -116,6 +116,19 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
           if (globalThis.getSelection().toString() || eventData.initial[0] < EDGE) {
             return
           }
+
+          let el = eventData.event.target
+          while (el && el !== document.body) {
+            const style = globalThis.getComputedStyle(el)
+            if (
+              (el.scrollWidth > el.clientWidth && style.overflowX === "auto") ||
+              style.overflowX === "scroll" ||
+              style.overflowX === "overlay"
+            ) {
+              return
+            }
+            el = el.parentElement
+          }
           handleSwiping(eventData)
         }
       : undefined,
@@ -132,6 +145,19 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
           if (globalThis.getSelection().toString() || eventData?.initial?.[0] < EDGE) {
             return
           }
+
+          let el = eventData.event.target
+          while (el && el !== document.body) {
+            const style = globalThis.getComputedStyle(el)
+            if (
+              (el.scrollWidth > el.clientWidth && style.overflowX === "auto") ||
+              style.overflowX === "scroll" ||
+              style.overflowX === "overlay"
+            ) {
+              return
+            }
+            el = el.parentElement
+          }
           handleSwipeLeft()
         }
       : undefined,
@@ -139,6 +165,19 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       ? (eventData) => {
           if (globalThis.getSelection().toString() || eventData?.initial?.[0] < EDGE) {
             return
+          }
+
+          let el = eventData.event.target
+          while (el && el !== document.body) {
+            const style = globalThis.getComputedStyle(el)
+            if (
+              (el.scrollWidth > el.clientWidth && style.overflowX === "auto") ||
+              style.overflowX === "scroll" ||
+              style.overflowX === "overlay"
+            ) {
+              return
+            }
+            el = el.parentElement
           }
           handleSwipeRight()
         }
