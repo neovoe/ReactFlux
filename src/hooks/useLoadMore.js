@@ -63,7 +63,12 @@ const useLoadMore = () => {
       return null
     }
 
-    const referenceTimestampIndex = timestamps.length > 1 ? timestamps.length - 2 : 0
+    const referenceTimestampIndex =
+      timestamps.length > 1
+        ? sortProperty === "created_at"
+          ? timestamps.length - 1
+          : timestamps.length - 2
+        : 0
     const referenceTimestamp = timestamps[referenceTimestampIndex]
 
     const timestampEntries = entriesByTimestamp[referenceTimestamp]
