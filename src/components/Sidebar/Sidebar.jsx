@@ -31,7 +31,7 @@ import {
 } from "@arco-design/web-react/icon"
 import { useStore } from "@nanostores/react"
 import classNames from "classnames"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useMemo, useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router"
 import { Virtualizer } from "virtua"
 
@@ -641,12 +641,10 @@ const updateAllEntriesAsRead = () => {
 }
 
 const Sidebar = () => {
-  const { homePage } = useStore(settingsState)
   const { isCoreDataReady } = useStore(dataState)
   const { polyglot } = useStore(polyglotState)
   const expandedCategories = useStore(expandedCategoriesState)
 
-  const [selectedKeys, setSelectedKeys] = useState([`/${homePage}`])
   const [categoryModalVisible, setCategoryModalVisible] = useState(false)
   const [feedModalVisible, setFeedModalVisible] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState(null)
@@ -659,15 +657,12 @@ const Sidebar = () => {
 
   const location = useLocation()
   const currentPath = location.pathname
+  const selectedKeys = useMemo(() => [currentPath], [currentPath])
 
   const { isBelowMedium } = useScreenWidth()
 
   const { fetchCounters } = useAppData()
   const { infoFrom, infoId } = useStore(contentState)
-
-  useEffect(() => {
-    setSelectedKeys([currentPath])
-  }, [currentPath])
 
   const handleEditCategory = (category) => {
     setSelectedCategory(category)
