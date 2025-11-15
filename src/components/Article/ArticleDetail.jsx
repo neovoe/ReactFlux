@@ -273,6 +273,40 @@ const handleVideo = (node) => {
   )
 }
 
+const handleIframe = (node) => {
+  const src = node.attribs?.src
+  if (!src) {
+    return node
+  }
+
+  // Check if it's a YouTube iframe
+  const isYouTube = /youtube\.com|youtu\.be/i.test(src)
+
+  // Create enhanced attributes
+  const enhancedAttribs = {
+    ...node.attribs,
+    allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+    allowFullScreen: true,
+    referrerPolicy: "strict-origin-when-cross-origin",
+  }
+
+  // For YouTube, ensure the src includes necessary parameters
+  if (isYouTube) {
+    const url = new URL(src)
+    // Add enablejsapi parameter if not present
+    if (!url.searchParams.has('enablejsapi')) {
+      url.searchParams.set('enablejsapi', '1')
+    }
+    enhancedAttribs.src = url.toString()
+  }
+
+  return (
+    <iframe
+      {...enhancedAttribs}
+    />
+  )
+}
+
 const getHtmlParserOptions = (imageSources, togglePhotoSlider) => {
   const options = {
     replace: (node) => {
@@ -297,6 +331,9 @@ const getHtmlParserOptions = (imageSources, togglePhotoSlider) => {
         }
         case "video": {
           return handleVideo(node)
+        }
+        case "iframe": {
+          return handleIframe(node)
         }
         case "table": {
           return handleContentTable(node)
